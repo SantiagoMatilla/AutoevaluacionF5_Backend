@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "role")
+@Table(name = "roles")
 public class RoleModel {
 
 	@Id
