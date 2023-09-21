@@ -1,9 +1,14 @@
 package com.F5aes.model;
 
+import java.sql.Date;
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -16,22 +21,25 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "teachers")
-public class TeacherModel {
+@Table(name = "Bootcamps")
+public class BootcampModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String firstName;
+    private String name;
 
-    private String lastName;
+    private String duration;
 
-    private String email;
+    private Date startDate;
 
-    private Long phone;
+    private Date endDate;
 
     @OneToOne
-    private BootcampModel bootcamp;
+    @JoinColumn(name = "teacher_id")
+    private TeacherModel teacher;
 
+    @OneToMany(mappedBy = "bootcamp")
+    private List<StudentsModel> students;
 }
