@@ -16,21 +16,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "students")
-public class StudentsModel {
+@Table(name = "stacks")
+public class StacksModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String Name;
 
-    private String firstName;
-
-    private String lastName;
-
-    private String email;
-
-    private Long phone;
-
-    @ManyToOne
-    private BootcampModel bootcamp;
 }
