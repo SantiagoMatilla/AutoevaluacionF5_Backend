@@ -1,16 +1,9 @@
 package com.F5aes.model;
 
 import java.sql.Date;
-import java.util.List;
+import java.util.Set;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "Bootcamps")
+@Table(name = "bootcamps")
 public class BootcampModel {
 
     @Id
@@ -35,11 +28,8 @@ public class BootcampModel {
     private Date startDate;
 
     private Date endDate;
-
-    @OneToOne
-    @JoinColumn(name = "teacher_id")
-    private TeacherModel teacher;
-
-    @OneToMany(mappedBy = "bootcamp")
-    private List<StudentsModel> students;
+    @ManyToOne(targetEntity = StacksModel.class, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "bootcamp_stacks", joinColumns = @JoinColumn(name = "bootcamp_id"), inverseJoinColumns =
+    @JoinColumn(name =	"stack_id"))
+    private Set<StacksModel> stacksModels;
 }
