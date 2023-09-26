@@ -20,47 +20,49 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 
-	//Save method
+	// Save method
 	@PostMapping("/saveUser")
-	public UserModel createUser(@RequestBody UserModel userModel){
+	public UserModel createUser(@RequestBody UserModel userModel) {
 
 		return userService.saveUser(userModel);
 	}
-	@GetMapping("/getUsers")
-	public List<UserModel> getAllUsers(){
 
-		return  userService.getUsers();
+	@GetMapping("/getUsers")
+	public List<UserModel> getAllUsers() {
+
+		return userService.getUsers();
 	}
+
 	@DeleteMapping("/{id}")
-	public void removeUser(@PathVariable Long id){
+	public void removeUser(@PathVariable Long id) {
 
 		userService.deleteUser(id);
 
 	}
+
 	@PutMapping("/updateUser/{id}")
 	public ResponseEntity<?> updateUser(@RequestBody UserModel userModel, @PathVariable Long id) {
-try{
-	Optional<UserModel> existingUser = userRepository.findById(id);
+		try {
+			Optional<UserModel> existingUser = userRepository.findById(id);
 
-		if (existingUser.isPresent()) {
-			UserModel updateUser =existingUser.get();
-			updateUser.setFirstName(userModel.getFirstName());
-			updateUser.setLastName(userModel.getLastName());
-			updateUser.setPhone(userModel.getPhone());
-			updateUser.setEmail(userModel.getEmail());
-			updateUser.setPassword(userModel.getPassword());
-			updateUser.setRepeatPassword(userModel.getRepeatPassword());
+			if (existingUser.isPresent()) {
+				UserModel updateUser = existingUser.get();
+				updateUser.setFirstName(userModel.getFirstName());
+				updateUser.setLastName(userModel.getLastName());
+				updateUser.setPhone(userModel.getPhone());
+				updateUser.setEmail(userModel.getEmail());
+				updateUser.setPassword(userModel.getPassword());
+				updateUser.setRepeatPassword(userModel.getRepeatPassword());
 
-			userRepository.save(updateUser);
-			return ResponseEntity.ok("user updated!");
+				userRepository.save(updateUser);
+				return ResponseEntity.ok("user updated!");
+			} else {
+				return ResponseEntity.notFound().build();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Not updated");
 		}
-	else {
-		return ResponseEntity.notFound().build();
-	}
-}catch (Exception e){
-	e.printStackTrace();
-	return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Not updated");
-}
 	}
 
 }

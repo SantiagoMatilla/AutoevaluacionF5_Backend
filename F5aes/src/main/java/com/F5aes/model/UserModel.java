@@ -28,13 +28,13 @@ public class UserModel {
 	@ManyToMany(fetch = FetchType.EAGER, targetEntity = RoleModel.class, cascade = CascadeType.PERSIST)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<RoleModel> roleModels;
+
 	public void addRole(RoleModel role) {
 		roleModels.add(role);
 	}
 
 	@ManyToOne(targetEntity = BootcampModel.class, cascade = CascadeType.PERSIST)
-	@JoinTable(name = "user_bootcamp", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns =
-	@JoinColumn(name =	"bootcamp_id"))
-	private  Set<BootcampModel> bootcampModels;
+	@JoinTable(name = "user_bootcamp", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "bootcamp_id"))
+	private Set<BootcampModel> bootcampModels;
 
 }
