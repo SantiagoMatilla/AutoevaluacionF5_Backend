@@ -28,8 +28,7 @@ public class BootcampModel {
     private Date startDate;
 
     private Date endDate;
-    @ManyToOne(targetEntity = StacksModel.class, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "bootcamp_stacks", joinColumns = @JoinColumn(name = "bootcamp_id"), inverseJoinColumns =
-    @JoinColumn(name =	"stack_id"))
-    private Set<StacksModel> stacksModels;
+    @ManyToOne(targetEntity = ContentModel.class, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "bootcamp_stacks", joinColumns = @JoinColumn(name = "bootcamp_id"), inverseJoinColumns = @JoinColumn(name = "stack_id"))
+    private Set<ContentModel> stacksModels;
 }

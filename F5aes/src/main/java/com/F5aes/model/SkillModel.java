@@ -15,15 +15,16 @@ import java.util.Set;
 @Entity
 @Table(name = "categories")
 
-public class CategoryModel {
+public class SkillModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String Name;
-    private String Competency;
+    private String Skill;
+    private String Content;
+    private String Framework;
 
-    @OneToMany(targetEntity = StacksModel.class, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "category_stacks", joinColumns = @JoinColumn(name = "category_id"), inverseJoinColumns =
-    @JoinColumn(name =	"stack_id"))
-    private Set<StacksModel> stacksModels;
+    @OneToMany(targetEntity = ContentModel.class, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "category_stacks", joinColumns = @JoinColumn(name = "category_id"), inverseJoinColumns = @JoinColumn(name = "stack_id"))
+    private Set<ContentModel> stacksModels;
 }
