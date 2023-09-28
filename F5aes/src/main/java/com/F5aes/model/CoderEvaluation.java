@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,9 +20,15 @@ public class CoderEvaluation {
 	@ManyToOne
 	@JoinColumn(name = "coder_id")
 	private UserModel coder;
+
 	@ManyToOne
 	@JoinColumn(name = "content_id")
 	private ContentModel content;
+
+	@ManyToOne
+	@JoinColumn(name = "evaluator_id")
+	private UserModel evaluator;
+
 	//Evaluations
 	private boolean firstEvaluation;
 	private boolean secondEvaluation;
