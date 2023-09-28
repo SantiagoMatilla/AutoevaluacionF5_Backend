@@ -6,14 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
-
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class CoderEvaluation {
+public class CoderEvaluationModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -29,7 +27,7 @@ public class CoderEvaluation {
 	@JoinColumn(name = "evaluator_id")
 	private UserModel evaluator;
 
-	//Evaluations
+	// Evaluations
 	private boolean firstEvaluation;
 	private boolean secondEvaluation;
 	private boolean thirdEvaluation;

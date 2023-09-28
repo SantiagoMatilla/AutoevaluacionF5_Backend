@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -29,6 +28,5 @@ public class SkillModel {
 
     @OneToMany(mappedBy = "skillModel")
     private Set<ContentModel> contents;
-
 
 }
