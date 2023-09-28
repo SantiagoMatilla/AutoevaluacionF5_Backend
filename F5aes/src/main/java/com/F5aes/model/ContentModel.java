@@ -1,10 +1,6 @@
 package com.F5aes.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,12 +11,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "stacks")
-public class ContentModel {
 
+@Table(name = "bootcamp-content")
+public class ContentModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String Name;
+    private String name;
+
+    @ManyToOne(targetEntity = SkillModel.class, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "skill_id")
+    private SkillModel skillModel;
 
 }

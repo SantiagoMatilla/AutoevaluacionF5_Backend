@@ -21,7 +21,7 @@ public class BootcampService {
         return bootcampRepository.findAll();
     }
 
-    public BootcampModel findbyId(Long id) {
+    public BootcampModel findById(Long id) {
         return bootcampRepository.findById(id)
                 .orElseThrow(() -> new BootcampNotFoundExceptions("Bootcamp not found whit id:" + id));
     }
@@ -37,7 +37,7 @@ public class BootcampService {
 
     @Transactional
     public BootcampModel updateBootcamp(Long id, BootcampModel bootcampDetails) {
-        BootcampModel bootcampModel = findbyId(id);
+        BootcampModel bootcampModel = findById(id);
         bootcampModel.setName(bootcampDetails.getName());
         bootcampModel.setDuration(bootcampDetails.getDuration());
         bootcampModel.setStartDate(bootcampDetails.getStartDate());

@@ -18,16 +18,6 @@ public class RoleService {
 
         return roleRepository.save(roleModel);
     }
-    // public UserModel editUser( Long id,UserModel usermodel){
-    // UserModel usermodel = userRepository.findById(id);
-    // userModel.setEmail(userModel.getEmail());
-    // userModel.setFirstName(userModel.getFirstName());
-    // userModel.setLastName(userModel.getLastName());
-    // userModel.setPhone(userModel.getPhone());
-    // userModel.setPassword(userModel.getPassword());
-    // userModel.setRepeatPassword(userModel.getRepeatPassword());
-    // return userRepository.save(userModel);
-    // }
 
     public List<RoleModel> getRole() {
 

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -13,18 +14,21 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "categories")
+@Table(name = "bootcamp-skills")
 
 public class SkillModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Lob
     private String Name;
-    private String Skill;
-    private String Content;
-    private String Framework;
 
-    @OneToMany(targetEntity = ContentModel.class, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "category_stacks", joinColumns = @JoinColumn(name = "category_id"), inverseJoinColumns = @JoinColumn(name = "stack_id"))
-    private Set<ContentModel> stacksModels;
+    @ManyToOne(targetEntity = StackModel.class, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "stack_id")
+    private StackModel stackModel;
+
+    @OneToMany(mappedBy = "skillModel")
+    private Set<ContentModel> contents;
+
+
 }

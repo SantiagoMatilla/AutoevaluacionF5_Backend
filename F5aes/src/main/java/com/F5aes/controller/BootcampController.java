@@ -26,13 +26,13 @@ public class BootcampController {
     private final BootcampService bootcampService;
 
     @GetMapping
-    public List<BootcampModel> getAllBoocamps() {
+    public List<BootcampModel> getAllBootcamp() {
         return bootcampService.findAll();
     }
 
     @GetMapping({ "/{id}" })
     public BootcampModel getBootcampById(@PathVariable Long id) {
-        return bootcampService.findbyId(id);
+        return bootcampService.findById(id);
     }
 
     @GetMapping("/name/{name}")

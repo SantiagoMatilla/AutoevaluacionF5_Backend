@@ -34,7 +34,7 @@ public class UserModel {
 	}
 
 	@ManyToOne(targetEntity = BootcampModel.class, cascade = CascadeType.PERSIST)
-	@JoinTable(name = "user_bootcamp", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "bootcamp_id"))
-	private Set<BootcampModel> bootcampModels;
+	@JoinColumn(name = "bootcamp_id")
+	private BootcampModel bootcampModels;
 
 }

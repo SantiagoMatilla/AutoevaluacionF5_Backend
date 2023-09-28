@@ -1,6 +1,7 @@
 package com.F5aes.model;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.*;
@@ -14,7 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "bootcamps")
+@Table(name = "bootcamp")
 public class BootcampModel {
 
     @Id
@@ -26,9 +27,11 @@ public class BootcampModel {
     private String duration;
 
     private Date startDate;
-
     private Date endDate;
-    @ManyToOne(targetEntity = ContentModel.class, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "bootcamp_stacks", joinColumns = @JoinColumn(name = "bootcamp_id"), inverseJoinColumns = @JoinColumn(name = "stack_id"))
-    private Set<ContentModel> stacksModels;
+
+    @OneToMany(mappedBy = "bootcampModels")
+    private Set<UserModel> userModels;
+
+    @OneToMany(mappedBy = "bootcampModels")
+    private Set<StackModel> stacksModels;
 }
