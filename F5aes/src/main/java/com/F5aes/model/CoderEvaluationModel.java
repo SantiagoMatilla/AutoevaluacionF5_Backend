@@ -18,9 +18,15 @@ public class CoderEvaluationModel {
 	@ManyToOne
 	@JoinColumn(name = "coder_id")
 	private UserModel coder;
+
 	@ManyToOne
 	@JoinColumn(name = "content_id")
 	private ContentModel content;
+
+	@ManyToOne
+	@JoinColumn(name = "evaluator_id")
+	private UserModel evaluator;
+
 	// Evaluations
 	private boolean firstEvaluation;
 	private boolean secondEvaluation;
