@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CoderEvaluation {
+public class CoderEvaluationModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -21,7 +21,7 @@ public class CoderEvaluation {
 	@ManyToOne
 	@JoinColumn(name = "content_id")
 	private ContentModel content;
-	//Evaluations
+	// Evaluations
 	private boolean firstEvaluation;
 	private boolean secondEvaluation;
 	private boolean thirdEvaluation;

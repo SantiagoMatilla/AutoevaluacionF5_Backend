@@ -1,10 +1,12 @@
 package com.F5aes.controller;
 
+import com.F5aes.model.BootcampModel;
 import com.F5aes.model.ContentModel;
 import com.F5aes.model.SkillModel;
 import com.F5aes.model.StackModel;
 import com.F5aes.service.PrincipalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,15 +17,14 @@ import java.util.List;
 public class PrincipalController {
 
 	@Autowired
-	private PrincipalService  principalService;
+	private PrincipalService principalService;
 
-
-//	----- Stack Model methods -----
+	// ----- Stack Model methods -----
 	@PostMapping("/saveStack")
-	public ResponseEntity <?> createStack(@RequestBody StackModel stackModel) {
+	public ResponseEntity<?> createStack(@RequestBody StackModel stackModel) {
 
 		principalService.createStack(stackModel);
-		return  ResponseEntity.ok("Successfully Saved!");
+		return ResponseEntity.ok("Successfully Saved!");
 	}
 
 	@GetMapping("/stacks")
@@ -31,9 +32,10 @@ public class PrincipalController {
 
 		return principalService.getAllStack();
 	}
+
 	@PutMapping("/updateStack/{id}")
 	public ResponseEntity<?> updateStack(@RequestBody StackModel stack, @PathVariable Long id) {
-		principalService.editStack(stack,id);
+		principalService.editStack(stack, id);
 		return ResponseEntity.ok("successfully updated!");
 	}
 
@@ -44,13 +46,12 @@ public class PrincipalController {
 
 	}
 
-
-	//	----- Skill Model methods -----
+	// ----- Skill Model methods -----
 	@PostMapping("/saveSkill")
-	public ResponseEntity <?> createSkill(@RequestBody SkillModel skill) {
+	public ResponseEntity<?> createSkill(@RequestBody SkillModel skill) {
 
 		principalService.createSkill(skill);
-		return  ResponseEntity.ok("Successfully Saved!");
+		return ResponseEntity.ok("Successfully Saved!");
 	}
 
 	@GetMapping("/skills")
@@ -61,9 +62,10 @@ public class PrincipalController {
 
 	@PutMapping("/updateSkill/{id}")
 	public ResponseEntity<?> updateSkill(@RequestBody SkillModel skill, @PathVariable Long id) {
-		principalService.editSkill(skill,id);
+		principalService.editSkill(skill, id);
 		return ResponseEntity.ok("successfully updated!");
 	}
+
 	@DeleteMapping("/skill/{id}")
 	public void deleteSkill(@PathVariable Long id) {
 
@@ -71,12 +73,12 @@ public class PrincipalController {
 
 	}
 
-	//	----- Skill Model methods -----
+	// ----- Skill Model methods -----
 	@PostMapping("/saveContent")
-	public ResponseEntity <?> createContent(@RequestBody ContentModel contents) {
+	public ResponseEntity<?> createContent(@RequestBody ContentModel contents) {
 
 		principalService.createContent(contents);
-		return  ResponseEntity.ok("Successfully Saved!");
+		return ResponseEntity.ok("Successfully Saved!");
 	}
 
 	@GetMapping("/contents")
@@ -87,13 +89,48 @@ public class PrincipalController {
 
 	@PutMapping("/updateContent/{id}")
 	public ResponseEntity<?> updateContent(@RequestBody ContentModel content, @PathVariable Long id) {
-		principalService.editContent(content,id);
+		principalService.editContent(content, id);
 		return ResponseEntity.ok("successfully updated!");
 	}
+
 	@DeleteMapping("/content/{id}")
 	public void deleteContent(@PathVariable Long id) {
 
 		principalService.deleteContent(id);
 
+	}
+
+	// ------ Bootcamp Model methods -------
+
+	@GetMapping("/bootcamps")
+	public List<BootcampModel> getAllBootcamp() {
+		return principalService.findAll();
+	}
+
+	@GetMapping({ "/{id}" })
+	public BootcampModel getBootcampById(@PathVariable Long id) {
+		return principalService.findById(id);
+	}
+
+	@GetMapping("/name/{name}")
+	public BootcampModel getBootcampByName(@PathVariable String name) {
+		return principalService.findByName(name);
+	}
+
+	@PostMapping(value = "add", consumes = "application/json")
+	public ResponseEntity<BootcampModel> createBootcamp(@RequestBody BootcampModel bootcampModel) {
+		BootcampModel savedBootcampModel = principalService.save(bootcampModel);
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedBootcampModel);
+	}
+
+	@PutMapping("/update/{id}")
+	public BootcampModel updateBootcamp(@PathVariable Long id, @RequestBody BootcampModel bootcampDetails) {
+		return principalService.updateBootcamp(id, bootcampDetails);
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> deleteBootcamp(@PathVariable Long id) {
+		principalService.deleteById(id);
+		return ResponseEntity.ok("Bootcamp deleted succesfully");
 	}
 }

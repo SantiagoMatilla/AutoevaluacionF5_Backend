@@ -1,7 +1,6 @@
 package com.F5aes.model;
 
 import java.sql.Date;
-import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.*;
