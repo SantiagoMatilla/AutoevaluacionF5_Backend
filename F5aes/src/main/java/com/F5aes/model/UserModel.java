@@ -38,7 +38,7 @@ public class UserModel {
 	private BootcampModel bootcampModels;
 
 	@OneToMany(mappedBy = "evaluator")
-	private Set<CoderEvaluation> evaluationPerformed;
+	private Set<CoderEvaluationModel> evaluationPerformed;
 
 
 }
