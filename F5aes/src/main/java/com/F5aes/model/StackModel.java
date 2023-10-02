@@ -13,17 +13,13 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "bootcamp-Stack")
+@Table(name = "stack")
 public class StackModel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
-
-	@ManyToOne(targetEntity = BootcampModel.class, cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "bootcamp_id")
-	private BootcampModel bootcampModels;
 
 	@OneToMany(mappedBy = "stackModel")
 	private Set<SkillModel> skillModels;
