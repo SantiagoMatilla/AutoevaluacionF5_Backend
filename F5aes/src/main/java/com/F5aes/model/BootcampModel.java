@@ -31,6 +31,7 @@ public class BootcampModel {
     @OneToMany(mappedBy = "bootcampModels")
     private Set<UserModel> userModels;
 
-    @OneToMany(mappedBy = "bootcampModels")
+    @ManyToMany(fetch = FetchType.EAGER, targetEntity = StackModel.class, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "bootcamps_stacks", joinColumns = @JoinColumn(name = "bootcamp_id"), inverseJoinColumns = @JoinColumn(name = "stack_id"))
     private Set<StackModel> stacksModels;
 }

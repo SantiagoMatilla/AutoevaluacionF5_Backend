@@ -67,6 +67,11 @@ public class PrincipalController {
 		return principalService.getAllSkill();
 	}
 
+	@GetMapping("/skills/{id}")
+	public Optional<SkillModel> getSkillById(@PathVariable long id) {
+		return principalService.getSkillById(id);
+	}
+
 	@PutMapping("/updateSkill/{id}")
 	public ResponseEntity<?> updateSkill(@RequestBody SkillModel skill, @PathVariable Long id) {
 		principalService.editSkill(skill, id);
@@ -80,7 +85,7 @@ public class PrincipalController {
 
 	}
 
-	// ----- Skill Model methods -----
+	// ----- Content Model methods -----
 	@PostMapping("/saveContent")
 	public ResponseEntity<?> createContent(@RequestBody ContentModel contents) {
 
@@ -92,6 +97,11 @@ public class PrincipalController {
 	public List<ContentModel> getAllContents() {
 
 		return principalService.getAllContent();
+	}
+
+	@GetMapping("/content/{id}")
+	public Optional<ContentModel> getContentById(@PathVariable long id) {
+		return principalService.getContentById(id);
 	}
 
 	@PutMapping("/updateContent/{id}")

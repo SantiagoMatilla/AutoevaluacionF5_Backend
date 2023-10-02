@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -87,6 +86,10 @@ public class PrincipalService {
 
 	}
 
+	public Optional<SkillModel> getSkillById(long id) {
+		return skillRepository.findById(id);
+	}
+
 	public void editSkill(@RequestBody SkillModel skill, @PathVariable Long id) {
 		try {
 			Optional<SkillModel> existingSkill = skillRepository.findById(id);
@@ -126,6 +129,10 @@ public class PrincipalService {
 
 		return contentRepository.findAll();
 
+	}
+
+	public Optional<ContentModel> getContentById(long id) {
+		return contentRepository.findById(id);
 	}
 
 	public void editContent(@RequestBody ContentModel contents, @PathVariable Long id) {
