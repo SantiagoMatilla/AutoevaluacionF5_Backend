@@ -138,6 +138,6 @@ public class PrincipalController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteBootcamp(@PathVariable Long id) {
 		principalService.deleteById(id);
-		return ResponseEntity.ok("Bootcamp deleted succesfully");
+		return ResponseEntity.ok("Bootcamp deleted successfully");
 	}
 }

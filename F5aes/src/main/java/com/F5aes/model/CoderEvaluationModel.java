@@ -42,4 +42,6 @@ public class CoderEvaluationModel {
 	private boolean fifthCriteria;
 	private boolean sixthCriteria;
 	private boolean seventhCriteria;
+	private double percentage;
+
 }

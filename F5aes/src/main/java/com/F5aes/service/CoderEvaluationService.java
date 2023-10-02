@@ -28,17 +28,41 @@ public class CoderEvaluationService {
 		CoderEvaluationModel existingUserEvaluation = coderEvaluationRepository.findById(id).orElse(null);
 
 		if (existingUserEvaluation != null) {
-
+			//evaluation phases
 			existingUserEvaluation.setFirstEvaluation(updatedUserEvaluation.isFirstEvaluation());
 			existingUserEvaluation.setSecondEvaluation(updatedUserEvaluation.isSecondEvaluation());
 			existingUserEvaluation.setThirdEvaluation(updatedUserEvaluation.isThirdEvaluation());
 			existingUserEvaluation.setFourthEvaluation(updatedUserEvaluation.isFourthEvaluation());
+			// evaluation criteria
+			existingUserEvaluation.setFirstCriteria(updatedUserEvaluation.isFirstCriteria());
+			existingUserEvaluation.setSecondCriteria(updatedUserEvaluation.isSecondCriteria());
+			existingUserEvaluation.setThirdCriteria(updatedUserEvaluation.isThirdCriteria());
+			existingUserEvaluation.setFourthCriteria(updatedUserEvaluation.isFourthCriteria());
+			existingUserEvaluation.setFifthCriteria(updatedUserEvaluation.isFifthCriteria());
+			existingUserEvaluation.setSixthCriteria(updatedUserEvaluation.isSixthCriteria());
 
+
+			// Calculate the percentage based on your evaluation criteria
+			double percentage = calculatePercentage(existingUserEvaluation);
+			existingUserEvaluation.setPercentage(percentage);
 
 			return coderEvaluationRepository.save(existingUserEvaluation);
 		}
 
 		return null;
+	}
+	private double calculatePercentage(CoderEvaluationModel coderEvaluation) {
+
+		int totalCriteria = 6; // Total number of criteria
+		int totalPoints = 0;
+
+		if (coderEvaluation.isFirstCriteria()) {
+			totalPoints += 1;
+		}
+
+		// Calculate the percentage
+
+		return (totalPoints * 100.0) / totalCriteria;
 	}
 // delete method
 	public void deleteCoderEvaluation(Long id) {
