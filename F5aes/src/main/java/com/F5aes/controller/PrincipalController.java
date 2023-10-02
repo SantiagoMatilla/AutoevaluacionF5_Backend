@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api")
@@ -32,6 +33,11 @@ public class PrincipalController {
 	public List<StackModel> getAllStacks() {
 
 		return principalService.getAllStack();
+	}
+
+	@GetMapping("/stacks/{id}")
+	public Optional<StackModel> getStackById(@PathVariable long id) {
+		return principalService.getStackById(id);
 	}
 
 	@PutMapping("/updateStack/{id}")
