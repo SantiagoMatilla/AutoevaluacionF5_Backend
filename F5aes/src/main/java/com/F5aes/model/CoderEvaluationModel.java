@@ -11,6 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+@Table(name = "coder_evaluation")
 public class CoderEvaluationModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
