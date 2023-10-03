@@ -20,7 +20,7 @@ public class ContentModel {
     private String name;
 
     @ManyToOne(targetEntity = SkillModel.class, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "skill_id")
+    @JoinColumn(name = "skill_id", referencedColumnName = "id")
     private SkillModel skillModel;
 
 }

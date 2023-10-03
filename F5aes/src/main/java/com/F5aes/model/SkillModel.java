@@ -20,10 +20,10 @@ public class SkillModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Lob
-    private String Name;
+    private String name;
 
     @ManyToOne(targetEntity = StackModel.class, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "stack_id")
+    @JoinColumn(name = "stack_id" ,referencedColumnName = "id")
     private StackModel stackModel;
 
     @OneToMany(mappedBy = "skillModel")

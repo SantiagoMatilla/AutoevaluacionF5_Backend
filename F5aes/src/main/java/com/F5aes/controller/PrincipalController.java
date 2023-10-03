@@ -5,6 +5,7 @@ import com.F5aes.model.ContentModel;
 import com.F5aes.model.SkillModel;
 import com.F5aes.model.StackModel;
 import com.F5aes.service.PrincipalService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class PrincipalController {
 	}
 
 	@GetMapping("/stacks/{id}")
-	public Optional<StackModel> getStackById(@PathVariable long id) {
+	public StackModel getStackById(@PathVariable long id) {
 		return principalService.getStackById(id);
 	}
 
@@ -55,11 +56,23 @@ public class PrincipalController {
 
 	// ----- Skill Model methods -----
 	@PostMapping("/saveSkill")
-	public ResponseEntity<?> createSkill(@RequestBody SkillModel skill) {
+	public ResponseEntity<String> createSkill(@RequestBody SkillModel skill) {
+
+		StackModel selectedStack = principalService.getStackById(skill.getStackModel().getId());
+
+		if (selectedStack == null) {
+			return ResponseEntity.badRequest().body("Selected stack not found");
+		}
+
+		// Set the selected stack in the skill
+		skill.setStackModel(selectedStack);
 
 		principalService.createSkill(skill);
-		return ResponseEntity.ok("Successfully Saved!");
+
+		return ResponseEntity.ok("Saved Successfully");
 	}
+
+
 
 	@GetMapping("/skills")
 	public List<SkillModel> getAllSkills() {
@@ -68,7 +81,7 @@ public class PrincipalController {
 	}
 
 	@GetMapping("/skills/{id}")
-	public Optional<SkillModel> getSkillById(@PathVariable long id) {
+	public SkillModel getSkillById(@PathVariable long id) {
 		return principalService.getSkillById(id);
 	}
 
@@ -89,9 +102,20 @@ public class PrincipalController {
 	@PostMapping("/saveContent")
 	public ResponseEntity<?> createContent(@RequestBody ContentModel contents) {
 
+		SkillModel selectedSkill = principalService.getSkillById(contents.getSkillModel().getId());
+
+		if (selectedSkill == null) {
+			return ResponseEntity.badRequest().body("Selected skill not found");
+		}
+
+		// Set the selected stack in the skill
+		contents.setSkillModel(selectedSkill);
+
 		principalService.createContent(contents);
-		return ResponseEntity.ok("Successfully Saved!");
-	}
+
+		return ResponseEntity.ok("Saved Successfully");
+
+}
 
 	@GetMapping("/contents")
 	public List<ContentModel> getAllContents() {

@@ -40,9 +40,10 @@ public class CoderEvaluationService {
 			existingUserEvaluation.setFourthCriteria(updatedUserEvaluation.isFourthCriteria());
 			existingUserEvaluation.setFifthCriteria(updatedUserEvaluation.isFifthCriteria());
 			existingUserEvaluation.setSixthCriteria(updatedUserEvaluation.isSixthCriteria());
+			existingUserEvaluation.setSeventhCriteria(updatedUserEvaluation.isSeventhCriteria());
 
 
-			// Calculate the percentage based on your evaluation criteria
+			// Calculate the percentage based on  evaluation criteria
 			double percentage = calculatePercentage(existingUserEvaluation);
 			existingUserEvaluation.setPercentage(percentage);
 
@@ -53,7 +54,7 @@ public class CoderEvaluationService {
 	}
 	private double calculatePercentage(CoderEvaluationModel coderEvaluation) {
 
-		int totalCriteria = 6; // Total number of criteria
+		int totalCriteria = 7; // Total number of criteria
 		int totalPoints = 0;
 
 		if (coderEvaluation.isFirstCriteria()) {

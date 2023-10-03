@@ -37,6 +37,8 @@ public class UserModel {
 	@JoinColumn(name = "bootcamp_id")
 	private BootcampModel bootcampModels;
 
+	public void setBootcampName(String name) {
+	}
 	@OneToMany(mappedBy = "evaluator")
 	private Set<CoderEvaluationModel> evaluationPerformed;
 

@@ -21,6 +21,6 @@ public class StackModel {
 	private Long id;
 	private String name;
 
-	@OneToMany(mappedBy = "stackModel")
+	@OneToMany(mappedBy = "stackModel", cascade = CascadeType.ALL)
 	private Set<SkillModel> skillModels;
 }

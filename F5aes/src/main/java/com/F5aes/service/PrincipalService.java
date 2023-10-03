@@ -13,6 +13,7 @@ import com.F5aes.repository.StackRepository;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.expression.spel.ast.OpNE;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -41,8 +42,9 @@ public class PrincipalService {
 
 	}
 
-	public Optional<StackModel> getStackById(long id) {
-		return stackRepository.findById(id);
+	public StackModel getStackById(long id) {
+		Optional<StackModel> optionalStack = stackRepository.findById(id);
+		return optionalStack.orElse(null);
 	}
 
 	public void editStack(@RequestBody StackModel stack, @PathVariable Long id) {
@@ -86,8 +88,10 @@ public class PrincipalService {
 
 	}
 
-	public Optional<SkillModel> getSkillById(long id) {
-		return skillRepository.findById(id);
+	public SkillModel getSkillById(long id) {
+
+		Optional<SkillModel> optionalSkillModel = skillRepository.findById(id);
+		return optionalSkillModel.orElse(null);
 	}
 
 	public void editSkill(@RequestBody SkillModel skill, @PathVariable Long id) {
