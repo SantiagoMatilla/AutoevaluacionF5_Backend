@@ -83,10 +83,14 @@ public class PrincipalService {
 	}
 
 	public List<SkillModel> getAllSkill() {
-
-		return skillRepository.findAll();
-
+		try {
+			return skillRepository.findAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
+
 
 	public SkillModel getSkillById(long id) {
 

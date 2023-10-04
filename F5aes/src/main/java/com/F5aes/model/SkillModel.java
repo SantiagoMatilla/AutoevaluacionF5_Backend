@@ -1,5 +1,6 @@
 package com.F5aes.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,6 +28,7 @@ public class SkillModel {
     private StackModel stackModel;
 
     @OneToMany(mappedBy = "skillModel")
+    @JsonIgnore
     private Set<ContentModel> contents;
 
 }

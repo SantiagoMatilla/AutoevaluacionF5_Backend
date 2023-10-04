@@ -5,12 +5,16 @@ import com.F5aes.model.ContentModel;
 import com.F5aes.model.SkillModel;
 import com.F5aes.model.StackModel;
 import com.F5aes.service.PrincipalService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,9 +27,23 @@ public class PrincipalController {
 	private PrincipalService principalService;
 
 	// ----- Stack Model methods -----
-	@PostMapping("/saveStack")
-	public ResponseEntity<?> createStack(@RequestBody StackModel stackModel) {
 
+	// create image directory
+	public  static String imagesPaths = System.clearProperty("user.dir")+"/src/main/resources/Images";
+
+	@PostMapping("/saveStack")
+	public ResponseEntity<?> createStack(@RequestBody StackModel stackModel,
+	                                     @RequestParam("image") MultipartFile file) {
+
+		String originalFileName = file.getOriginalFilename();
+		Path fileNamePath = Paths.get(imagesPaths,originalFileName);
+		try{
+			Files.write(fileNamePath,file.getBytes());
+
+		}catch (IOException e){
+
+			throw new RuntimeException(e);
+		}
 		principalService.createStack(stackModel);
 		return ResponseEntity.ok("Successfully Saved!");
 	}

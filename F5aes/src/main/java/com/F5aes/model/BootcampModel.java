@@ -3,6 +3,7 @@ package com.F5aes.model;
 import java.sql.Date;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,6 +34,7 @@ public class BootcampModel {
 
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = StackModel.class, cascade = CascadeType.PERSIST)
     @JoinTable(name = "bootcamp_stacks", joinColumns = @JoinColumn(name = "bootcamp_id"), inverseJoinColumns = @JoinColumn(name = "stack_id"))
+    @JsonIgnore
     private Set<StackModel> stacksModels;
 
 
