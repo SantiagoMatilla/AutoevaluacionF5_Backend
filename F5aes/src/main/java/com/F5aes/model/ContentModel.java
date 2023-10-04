@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @Entity
 
-@Table(name = "bootcamp-content")
+@Table(name = "content")
 public class ContentModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

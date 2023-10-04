@@ -23,4 +23,7 @@ public class StackModel {
 
 	@OneToMany(mappedBy = "stackModel")
 	private Set<SkillModel> skillModels;
+
+	@ManyToMany(mappedBy = "stacksModels")
+	private Set<BootcampModel> bootcamps;
 }
