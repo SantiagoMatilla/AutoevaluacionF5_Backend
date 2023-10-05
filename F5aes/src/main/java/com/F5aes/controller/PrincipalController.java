@@ -29,7 +29,7 @@ public class PrincipalController {
 	// ----- Stack Model methods -----
 
 	// create image directory
-	public  static String imagesPaths = System.clearProperty("user.dir")+"/src/main/resources/Images";
+	public  static String imagesPaths = System.getProperty("user.dir")+"/src/main/resources/Images";
 
 	@PostMapping("/saveStack")
 	public ResponseEntity<?> createStack(@RequestBody StackModel stackModel,
