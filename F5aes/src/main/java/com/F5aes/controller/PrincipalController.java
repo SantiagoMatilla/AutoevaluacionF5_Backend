@@ -51,13 +51,13 @@ public class PrincipalController {
 		return ResponseEntity.ok("Successfully Saved!");
 	}
 
-	@GetMapping("/stacks")
+	@GetMapping("/stack")
 	public List<StackModel> getAllStacks() {
 
 		return principalService.getAllStack();
 	}
 
-	@GetMapping("/stacks/{id}")
+	@GetMapping("/stack/{id}")
 	public StackModel getStackById(@PathVariable long id) {
 		return principalService.getStackById(id);
 	}
@@ -68,7 +68,7 @@ public class PrincipalController {
 		return ResponseEntity.ok("successfully updated!");
 	}
 
-	@DeleteMapping("/stacks/{id}")
+	@DeleteMapping("/deleteStack/{id}")
 	public void deleteStack(@PathVariable Long id) {
 
 		principalService.deleteStack(id);
@@ -95,13 +95,13 @@ public class PrincipalController {
 
 
 
-	@GetMapping("/skills")
+	@GetMapping("/skill")
 	public List<SkillModel> getAllSkills() {
 
 		return principalService.getAllSkill();
 	}
 
-	@GetMapping("/skills/{id}")
+	@GetMapping("/skill/{id}")
 	public SkillModel getSkillById(@PathVariable long id) {
 		return principalService.getSkillById(id);
 	}
@@ -112,7 +112,7 @@ public class PrincipalController {
 		return ResponseEntity.ok("successfully updated!");
 	}
 
-	@DeleteMapping("/skill/{id}")
+	@DeleteMapping("/deleteSkill/{id}")
 	public void deleteSkill(@PathVariable Long id) {
 
 		principalService.deleteSkill(id);
@@ -138,7 +138,7 @@ public class PrincipalController {
 
 }
 
-	@GetMapping("/contents")
+	@GetMapping("/content")
 	public List<ContentModel> getAllContents() {
 
 		return principalService.getAllContent();
@@ -155,7 +155,7 @@ public class PrincipalController {
 		return ResponseEntity.ok("successfully updated!");
 	}
 
-	@DeleteMapping("/content/{id}")
+	@DeleteMapping("/deleteContent/{id}")
 	public void deleteContent(@PathVariable Long id) {
 
 		principalService.deleteContent(id);
@@ -169,7 +169,7 @@ public class PrincipalController {
 		return principalService.findAll();
 	}
 
-	@GetMapping({ "/{id}" })
+	@GetMapping({ "/bootcamp/{id}" })
 	public BootcampModel getBootcampById(@PathVariable Long id) {
 		return principalService.findById(id);
 	}
@@ -190,7 +190,7 @@ public class PrincipalController {
 		return principalService.updateBootcamp(id, bootcampDetails);
 	}
 
-	@DeleteMapping("/bootcamp/{id}")
+	@DeleteMapping("/deleteBootcamp/{id}")
 	public ResponseEntity<String> deleteBootcamp(@PathVariable Long id) {
 		principalService.deleteById(id);
 		return ResponseEntity.ok("Bootcamp deleted successfully");
