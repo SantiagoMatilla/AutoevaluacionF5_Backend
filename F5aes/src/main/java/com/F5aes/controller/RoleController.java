@@ -6,6 +6,8 @@ import com.F5aes.repository.RoleRepository;
 
 import com.F5aes.service.RoleService;
 
+import com.F5aes.service.request.AssignRoleRequest;
+import com.F5aes.service.request.RoleAssignImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +22,8 @@ import java.util.Optional;
 public class RoleController {
     @Autowired
     private RoleService roleService;
-    @Autowired
-    private RoleRepository roleRepository;
+@Autowired
+private RoleAssignImpl roleAssign;
 
     // Save method
     @PostMapping("/saveRole")
@@ -30,10 +32,9 @@ public class RoleController {
         return roleService.saveRole(roleModel);
     }
 
-    @GetMapping("/getRole")
-    public List<RoleModel> getAllRoles() {
-
-        return roleService.getRole();
+    @GetMapping("/roles")
+    public List<RoleModel> getRoles() {
+        return roleService.getAllRoles();
     }
 
     @DeleteMapping("role/{id}")
@@ -45,23 +46,18 @@ public class RoleController {
 
     @PutMapping("/updateRole/{id}")
     public ResponseEntity<?> updateRole(@RequestBody RoleModel roleModel, @PathVariable Long id) {
-        try {
-            Optional<RoleModel> existingRole = roleRepository.findById(id);
-
-            if (existingRole.isPresent()) {
-                RoleModel updateRole = existingRole.get();
-                updateRole.setId(roleModel.getId());
-                updateRole.setName(roleModel.getName());
-
-                roleRepository.save(updateRole);
-                return ResponseEntity.ok("role updated!");
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Not updated");
-        }
+        roleService.editRole(roleModel,id);
+    return ResponseEntity.ok("Role updated successfully");
     }
+// assign role to the users
+@PostMapping("/assign-roles")
+public ResponseEntity<?> assignRolesToUser(@RequestBody AssignRoleRequest assignRoleRequest) {
+    try {
+        roleAssign.assignRolesToUser(assignRoleRequest);
+        return ResponseEntity.ok("Roles assigned successfully");
 
+    } catch (RuntimeException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error assigning role: " + e.getMessage());
+    }
+}
 }
