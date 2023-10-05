@@ -32,18 +32,21 @@ public class PrincipalController {
 	public  static String imagesPaths = System.clearProperty("user.dir")+"/src/main/resources/Images";
 
 	@PostMapping("/saveStack")
-	public ResponseEntity<?> createStack(@RequestBody StackModel stackModel,
-	                                     @RequestParam("image") MultipartFile file) {
+	public ResponseEntity<?> createStack(@RequestBody StackModel stackModel
+//			,
+//	                                     @RequestParam("image") MultipartFile file
+	 )
+	{
 
-		String originalFileName = file.getOriginalFilename();
-		Path fileNamePath = Paths.get(imagesPaths,originalFileName);
-		try{
-			Files.write(fileNamePath,file.getBytes());
-
-		}catch (IOException e){
-
-			throw new RuntimeException(e);
-		}
+//		String originalFileName = file.getOriginalFilename();
+//		Path fileNamePath = Paths.get(imagesPaths,originalFileName);
+//		try{
+//			Files.write(fileNamePath,file.getBytes());
+//
+//		}catch (IOException e){
+//
+//			throw new RuntimeException(e);
+//		}
 		principalService.createStack(stackModel);
 		return ResponseEntity.ok("Successfully Saved!");
 	}
@@ -161,7 +164,7 @@ public class PrincipalController {
 
 	// ------ Bootcamp Model methods -------
 
-	@GetMapping("/bootcamps")
+	@GetMapping("/bootcamp")
 	public List<BootcampModel> getAllBootcamp() {
 		return principalService.findAll();
 	}
@@ -171,23 +174,23 @@ public class PrincipalController {
 		return principalService.findById(id);
 	}
 
-	@GetMapping("/name/{name}")
+	@GetMapping("/bootcamp/{name}")
 	public BootcampModel getBootcampByName(@PathVariable String name) {
 		return principalService.findByName(name);
 	}
 
-	@PostMapping(value = "add", consumes = "application/json")
+	@PostMapping("/saveBootcamp")
 	public ResponseEntity<BootcampModel> createBootcamp(@RequestBody BootcampModel bootcampModel) {
 		BootcampModel savedBootcampModel = principalService.save(bootcampModel);
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedBootcampModel);
 	}
 
-	@PutMapping("/update/{id}")
+	@PutMapping("/updateBootcamp/{id}")
 	public BootcampModel updateBootcamp(@PathVariable Long id, @RequestBody BootcampModel bootcampDetails) {
 		return principalService.updateBootcamp(id, bootcampDetails);
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/bootcamp/{id}")
 	public ResponseEntity<String> deleteBootcamp(@PathVariable Long id) {
 		principalService.deleteById(id);
 		return ResponseEntity.ok("Bootcamp deleted successfully");

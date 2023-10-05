@@ -23,6 +23,7 @@ public class SkillModel {
     @Lob
     private String name;
 
+
     @ManyToOne(targetEntity = StackModel.class, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "stack_id" ,referencedColumnName = "id")
     private StackModel stackModel;
