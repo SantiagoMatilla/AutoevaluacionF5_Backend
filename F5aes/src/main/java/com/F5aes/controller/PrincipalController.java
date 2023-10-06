@@ -27,23 +27,6 @@ public class PrincipalController {
 	@Autowired
 	private UserService userService;
 
-	@GetMapping("/content/{id}")
-	public Optional<Content> getContentById(@PathVariable long id) {
-		return principalService.getContentById(id);
-	}
-
-	@PutMapping("/updateContent/{id}")
-	public ResponseEntity<?> updateContent(@RequestBody Content content, @PathVariable Long id) {
-		principalService.editContent(content, id);
-		return ResponseEntity.ok("successfully updated!");
-	}
-
-	@DeleteMapping("/deleteContent/{id}")
-	public void deleteContent(@PathVariable Long id) {
-
-		principalService.deleteContent(id);
-
-	}
 
 	// ------ Bootcamp Model methods -------
 
@@ -86,6 +69,18 @@ public class PrincipalController {
 	// create image directory
 	public  static String imagesPaths = System.getProperty("user.dir")+"/src/main/resources/Images";
 
+	@GetMapping("/stack")
+	public List<Stack> getAllStacks() {
+
+		return principalService.getAllStack();
+	}
+
+	@GetMapping("/stack/{id}")
+	public Stack getStackById(@PathVariable long id) {
+		return principalService.getStackById(id);
+	}
+
+
 	@PostMapping("/saveStack")
 	public ResponseEntity<?> createStack(@Valid @ModelAttribute Stack stackModel,
 	                                     @RequestParam("image") MultipartFile file) {
@@ -106,17 +101,6 @@ public class PrincipalController {
 		return ResponseEntity.ok("Successfully Saved!");
 	}
 
-	@GetMapping("/stack")
-	public List<Stack> getAllStacks() {
-
-		return principalService.getAllStack();
-	}
-
-	@GetMapping("/stack/{id}")
-	public Stack getStackById(@PathVariable long id) {
-		return principalService.getStackById(id);
-	}
-
 	@PutMapping("/updateStack/{id}")
 	public ResponseEntity<?> updateStack(@RequestBody Stack stack, @PathVariable Long id) {
 		principalService.editStack(stack, id);
@@ -131,6 +115,19 @@ public class PrincipalController {
 	}
 
 	// ----- Skill Model methods -----
+
+	@GetMapping("/skill")
+	public List<Skill> getAllSkills() {
+
+		return principalService.getAllSkill();
+	}
+
+	@GetMapping("/skill/{id}")
+	public Skill getSkillById(@PathVariable long id) {
+		return principalService.getSkillById(id);
+	}
+
+
 	@PostMapping("/saveSkill")
 	public ResponseEntity<String> createSkill(@RequestBody Skill skill) {
 
@@ -150,17 +147,6 @@ public class PrincipalController {
 
 
 
-	@GetMapping("/skill")
-	public List<Skill> getAllSkills() {
-
-		return principalService.getAllSkill();
-	}
-
-	@GetMapping("/skill/{id}")
-	public Skill getSkillById(@PathVariable long id) {
-		return principalService.getSkillById(id);
-	}
-
 	@PutMapping("/updateSkill/{id}")
 	public ResponseEntity<?> updateSkill(@RequestBody Skill skill, @PathVariable Long id) {
 		principalService.editSkill(skill, id);
@@ -175,6 +161,18 @@ public class PrincipalController {
 	}
 
 	// ----- Content Model methods -----
+
+	@GetMapping("/content")
+	public List<Content> getAllContents() {
+
+		return principalService.getAllContent();
+	}
+	@GetMapping("/content/{id}")
+	public Optional<Content> getContentById(@PathVariable long id) {
+		return principalService.getContentById(id);
+	}
+
+
 	@PostMapping("/saveContent")
 	public ResponseEntity<?> createContent(@RequestBody Content contents) {
 
@@ -193,11 +191,17 @@ public class PrincipalController {
 
 }
 
-	@GetMapping("/content")
-	public List<Content> getAllContents() {
-
-		return principalService.getAllContent();
+	@PutMapping("/updateContent/{id}")
+	public ResponseEntity<?> updateContent(@RequestBody Content content, @PathVariable Long id) {
+		principalService.editContent(content, id);
+		return ResponseEntity.ok("successfully updated!");
 	}
 
+	@DeleteMapping("/deleteContent/{id}")
+	public void deleteContent(@PathVariable Long id) {
+
+		principalService.deleteContent(id);
+
+	}
 
 }
