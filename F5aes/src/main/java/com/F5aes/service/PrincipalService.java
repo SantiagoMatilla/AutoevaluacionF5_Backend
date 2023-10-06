@@ -1,10 +1,10 @@
 package com.F5aes.service;
 
 import com.F5aes.Exceptions.BootcampNotFoundExceptions;
-import com.F5aes.model.BootcampModel;
-import com.F5aes.model.ContentModel;
-import com.F5aes.model.SkillModel;
-import com.F5aes.model.StackModel;
+import com.F5aes.model.Bootcamp;
+import com.F5aes.model.Content;
+import com.F5aes.model.Skill;
+import com.F5aes.model.Stack;
 import com.F5aes.repository.BootcampRepository;
 import com.F5aes.repository.ContentRepository;
 import com.F5aes.repository.SkillRepository;
@@ -13,7 +13,6 @@ import com.F5aes.repository.StackRepository;
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.expression.spel.ast.OpNE;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -30,29 +29,29 @@ public class PrincipalService {
 	@Autowired
 	private StackRepository stackRepository;
 
-	public void createStack(StackModel stack) {
+	public void createStack(Stack stack) {
 
 		stackRepository.save(stack);
 		ResponseEntity.ok("Saved Successfully");
 	}
 
-	public List<StackModel> getAllStack() {
+	public List<Stack> getAllStack() {
 
 		return stackRepository.findAll();
 
 	}
 
-	public StackModel getStackById(long id) {
-		Optional<StackModel> optionalStack = stackRepository.findById(id);
+	public Stack getStackById(long id) {
+		Optional<Stack> optionalStack = stackRepository.findById(id);
 		return optionalStack.orElse(null);
 	}
 
-	public void editStack(@RequestBody StackModel stack, @PathVariable Long id) {
+	public void editStack(@RequestBody Stack stack, @PathVariable Long id) {
 		try {
-			Optional<StackModel> existingStack = stackRepository.findById(id);
+			Optional<Stack> existingStack = stackRepository.findById(id);
 
 			if (existingStack.isPresent()) {
-				StackModel updateStack = existingStack.get();
+				Stack updateStack = existingStack.get();
 				updateStack.setName(stack.getName());
 
 				stackRepository.save(updateStack);
@@ -76,13 +75,13 @@ public class PrincipalService {
 	@Autowired
 	private SkillRepository skillRepository;
 
-	public void createSkill(SkillModel skill) {
+	public void createSkill(Skill skill) {
 
 		skillRepository.save(skill);
 		ResponseEntity.ok("Saved Successfully");
 	}
 
-	public List<SkillModel> getAllSkill() {
+	public List<Skill> getAllSkill() {
 		try {
 			return skillRepository.findAll();
 		} catch (Exception e) {
@@ -92,18 +91,18 @@ public class PrincipalService {
 	}
 
 
-	public SkillModel getSkillById(long id) {
+	public Skill getSkillById(long id) {
 
-		Optional<SkillModel> optionalSkillModel = skillRepository.findById(id);
+		Optional<Skill> optionalSkillModel = skillRepository.findById(id);
 		return optionalSkillModel.orElse(null);
 	}
 
-	public void editSkill(@RequestBody SkillModel skill, @PathVariable Long id) {
+	public void editSkill(@RequestBody Skill skill, @PathVariable Long id) {
 		try {
-			Optional<SkillModel> existingSkill = skillRepository.findById(id);
+			Optional<Skill> existingSkill = skillRepository.findById(id);
 
 			if (existingSkill.isPresent()) {
-				SkillModel updateSkill = existingSkill.get();
+				Skill updateSkill = existingSkill.get();
 				updateSkill.setName(skill.getName());
 
 				skillRepository.save(updateSkill);
@@ -127,28 +126,28 @@ public class PrincipalService {
 	@Autowired
 	private ContentRepository contentRepository;
 
-	public void createContent(ContentModel contents) {
+	public void createContent(Content contents) {
 
 		contentRepository.save(contents);
 		ResponseEntity.ok("Saved Successfully");
 	}
 
-	public List<ContentModel> getAllContent() {
+	public List<Content> getAllContent() {
 
 		return contentRepository.findAll();
 
 	}
 
-	public Optional<ContentModel> getContentById(long id) {
+	public Optional<Content> getContentById(long id) {
 		return contentRepository.findById(id);
 	}
 
-	public void editContent(@RequestBody ContentModel contents, @PathVariable Long id) {
+	public void editContent(@RequestBody Content contents, @PathVariable Long id) {
 		try {
-			Optional<ContentModel> existingContent = contentRepository.findById(id);
+			Optional<Content> existingContent = contentRepository.findById(id);
 
 			if (existingContent.isPresent()) {
-				ContentModel updateContent = existingContent.get();
+				Content updateContent = existingContent.get();
 				updateContent.setName(contents.getName());
 
 				contentRepository.save(updateContent);
@@ -172,32 +171,35 @@ public class PrincipalService {
 	@Autowired
 	private BootcampRepository bootcampRepository;
 
-	public List<BootcampModel> findAll() {
+	public List<Bootcamp> findAll() {
 		return bootcampRepository.findAll();
 	}
 
-	public BootcampModel findById(Long id) {
-		return bootcampRepository.findById(id)
-				.orElseThrow(() -> new BootcampNotFoundExceptions("Bootcamp not found whit id:" + id));
+
+	public Bootcamp getBootcampById (Long id) {
+	Optional<Bootcamp> optionalBootcampModel = bootcampRepository.findById(id);
+	return optionalBootcampModel.orElse(null);
 	}
 
-	public BootcampModel findByName(String name) {
+
+
+	public Bootcamp findByName(String name) {
 		return bootcampRepository.findByName(name)
 				.orElseThrow(() -> new BootcampNotFoundExceptions("Bootcamp not found whit name " + name));
 	}
 
-	public BootcampModel save(BootcampModel bootcampModel) {
-		return bootcampRepository.save(bootcampModel);
+	public Bootcamp save(Bootcamp bootcamp) {
+		return bootcampRepository.save(bootcamp);
 	}
 
 	@Transactional
-	public BootcampModel updateBootcamp(Long id, BootcampModel bootcampDetails) {
-		BootcampModel bootcampModel = findById(id);
-		bootcampModel.setName(bootcampDetails.getName());
-		bootcampModel.setDuration(bootcampDetails.getDuration());
-		bootcampModel.setStartDate(bootcampDetails.getStartDate());
-		bootcampModel.setEndDate(bootcampDetails.getEndDate());
-		return save(bootcampModel);
+	public Bootcamp updateBootcamp(Long id, Bootcamp bootcampDetails) {
+		Bootcamp bootcamp = getBootcampById(id);
+		bootcamp.setName(bootcampDetails.getName());
+		bootcamp.setDuration(bootcampDetails.getDuration());
+		bootcamp.setStartDate(bootcampDetails.getStartDate());
+		bootcamp.setEndDate(bootcampDetails.getEndDate());
+		return save(bootcamp);
 	}
 
 	public void deleteById(Long Id) {

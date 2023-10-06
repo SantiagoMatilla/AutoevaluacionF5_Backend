@@ -13,14 +13,14 @@ import lombok.Setter;
 @Entity
 
 @Table(name = "bootcamp-content")
-public class ContentModel {
+public class Content {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
-    @ManyToOne(targetEntity = SkillModel.class, cascade = CascadeType.PERSIST)
+    @ManyToOne(targetEntity = Skill.class, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "skill_id", referencedColumnName = "id")
-    private SkillModel skillModel;
+    private Skill skill;
 
 }

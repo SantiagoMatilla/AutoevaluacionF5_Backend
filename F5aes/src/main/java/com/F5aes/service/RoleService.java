@@ -1,6 +1,6 @@
 package com.F5aes.service;
 
-import com.F5aes.model.RoleModel;
+import com.F5aes.model.Role;
 
 import com.F5aes.repository.RoleRepository;
 
@@ -19,23 +19,23 @@ public class RoleService {
     @Autowired
     private RoleRepository roleRepository;
 
-    public RoleModel saveRole(RoleModel roleModel) {
+    public Role saveRole(Role role) {
 
-        return roleRepository.save(roleModel);
+        return roleRepository.save(role);
     }
 
-    public List<RoleModel> getAllRoles() {
+    public List<Role> getAllRoles() {
 
         return roleRepository.findAll();
     }
-    public void editRole(@RequestBody RoleModel roleModel, @PathVariable Long id) {
+    public void editRole(@RequestBody Role role, @PathVariable Long id) {
         try {
-            Optional<RoleModel> existingRole = roleRepository.findById(id);
+            Optional<Role> existingRole = roleRepository.findById(id);
 
             if (existingRole.isPresent()) {
-                RoleModel updateRole = existingRole.get();
-                updateRole.setId(roleModel.getId());
-                updateRole.setName(roleModel.getName());
+                Role updateRole = existingRole.get();
+                updateRole.setId(role.getId());
+                updateRole.setName(role.getName());
 
                 roleRepository.save(updateRole);
                  ResponseEntity.ok("role updated!");

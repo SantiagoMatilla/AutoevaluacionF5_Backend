@@ -1,6 +1,6 @@
 package com.F5aes.service;
 
-import com.F5aes.model.CoderEvaluationModel;
+import com.F5aes.model.CoderEvaluation;
 import com.F5aes.repository.CoderEvaluationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,20 +12,20 @@ public class CoderEvaluationService {
 	@Autowired
 	private CoderEvaluationRepository coderEvaluationRepository;
 // get all
-	public List<CoderEvaluationModel> getAllCoderEvaluations() {
+	public List<CoderEvaluation> getAllCoderEvaluations() {
 		return coderEvaluationRepository.findAll();
 	}
 // get by id
-	public CoderEvaluationModel getCoderEvaluationById(Long id) {
+	public CoderEvaluation getCoderEvaluationById(Long id) {
 		return coderEvaluationRepository.findById(id).orElse(null);
 	}
 //create method
-	public CoderEvaluationModel createCoderEvaluation(CoderEvaluationModel userEvaluation) {
+	public CoderEvaluation createCoderEvaluation(CoderEvaluation userEvaluation) {
 		return coderEvaluationRepository.save(userEvaluation);
 	}
 // update method
-	public CoderEvaluationModel updateCoderEvaluation(Long id, CoderEvaluationModel updatedUserEvaluation) {
-		CoderEvaluationModel existingUserEvaluation = coderEvaluationRepository.findById(id).orElse(null);
+	public CoderEvaluation updateCoderEvaluation(Long id, CoderEvaluation updatedUserEvaluation) {
+		CoderEvaluation existingUserEvaluation = coderEvaluationRepository.findById(id).orElse(null);
 
 		if (existingUserEvaluation != null) {
 			//evaluation phases
@@ -52,7 +52,7 @@ public class CoderEvaluationService {
 
 		return null;
 	}
-	private double calculatePercentage(CoderEvaluationModel coderEvaluation) {
+	private double calculatePercentage(CoderEvaluation coderEvaluation) {
 
 		int totalCriteria = 7; // Total number of criteria
 		int totalPoints = 0;

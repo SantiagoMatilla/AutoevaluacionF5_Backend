@@ -4,10 +4,10 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.F5aes.model.BootcampModel;
+import com.F5aes.model.Bootcamp;
 
-public interface BootcampRepository extends JpaRepository<BootcampModel, Long> {
+public interface BootcampRepository extends JpaRepository<Bootcamp, Long> {
 
-    Optional<BootcampModel> findByName(String String);
+    Optional<Bootcamp> findByName(String String);
 
 }

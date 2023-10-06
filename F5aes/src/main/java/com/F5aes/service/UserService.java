@@ -27,6 +27,11 @@ public class UserService {
 
 		return userRepository.findAll();
 	}
+	public Optional<UserModel> getUserById(Long id){
+
+		return  userRepository.findById(id);
+
+	}
 	public void editUser(@RequestBody UserModel userModel, @PathVariable Long id) {
 		try {
 			Optional<UserModel> existingUser = userRepository.findById(id);

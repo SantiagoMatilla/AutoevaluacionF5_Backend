@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "bootcamp")
-public class BootcampModel {
+public class Bootcamp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,10 +32,10 @@ public class BootcampModel {
     @OneToMany(mappedBy = "bootcampModels")
     private Set<UserModel> userModels;
 
-    @ManyToMany(fetch = FetchType.EAGER, targetEntity = StackModel.class, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.EAGER, targetEntity = Stack.class, cascade = CascadeType.PERSIST)
     @JoinTable(name = "bootcamp_stacks", joinColumns = @JoinColumn(name = "bootcamp_id"), inverseJoinColumns = @JoinColumn(name = "stack_id"))
     @JsonIgnore
-    private Set<StackModel> stacksModels;
+    private Set<Stack> stacksModels;
 
 
 }

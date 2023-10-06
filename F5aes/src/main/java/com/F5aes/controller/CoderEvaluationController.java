@@ -1,6 +1,6 @@
 package com.F5aes.controller;
 
-import com.F5aes.model.CoderEvaluationModel;
+import com.F5aes.model.CoderEvaluation;
 import com.F5aes.service.CoderEvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,14 +16,14 @@ public class CoderEvaluationController {
 	private CoderEvaluationService coderEvaluationService;
 
 	@GetMapping
-	public ResponseEntity<List<CoderEvaluationModel>> getAllUserEvaluations() {
-		List<CoderEvaluationModel> evaluations = coderEvaluationService.getAllCoderEvaluations();
+	public ResponseEntity<List<CoderEvaluation>> getAllUserEvaluations() {
+		List<CoderEvaluation> evaluations = coderEvaluationService.getAllCoderEvaluations();
 		return new ResponseEntity<>(evaluations, HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<CoderEvaluationModel> getUserEvaluationById(@PathVariable Long id) {
-		CoderEvaluationModel evaluation = coderEvaluationService.getCoderEvaluationById(id);
+	public ResponseEntity<CoderEvaluation> getUserEvaluationById(@PathVariable Long id) {
+		CoderEvaluation evaluation = coderEvaluationService.getCoderEvaluationById(id);
 
 		if (evaluation != null) {
 			return new ResponseEntity<>(evaluation, HttpStatus.OK);
@@ -33,15 +33,15 @@ public class CoderEvaluationController {
 	}
 
 	@PostMapping
-	public ResponseEntity<CoderEvaluationModel> createUserEvaluation(@RequestBody CoderEvaluationModel coderEvaluation) {
-		CoderEvaluationModel createdEvaluation = coderEvaluationService.createCoderEvaluation(coderEvaluation);
+	public ResponseEntity<CoderEvaluation> createUserEvaluation(@RequestBody CoderEvaluation coderEvaluation) {
+		CoderEvaluation createdEvaluation = coderEvaluationService.createCoderEvaluation(coderEvaluation);
 		return new ResponseEntity<>(createdEvaluation, HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<CoderEvaluationModel> updateUserEvaluation(@PathVariable Long id,
-	                                              @RequestBody CoderEvaluationModel updatedCoderEvaluation) {
-		CoderEvaluationModel updatedEvaluation = coderEvaluationService.updateCoderEvaluation(id, updatedCoderEvaluation);
+	public ResponseEntity<CoderEvaluation> updateUserEvaluation(@PathVariable Long id,
+	                                                            @RequestBody CoderEvaluation updatedCoderEvaluation) {
+		CoderEvaluation updatedEvaluation = coderEvaluationService.updateCoderEvaluation(id, updatedCoderEvaluation);
 
 		if (updatedEvaluation != null) {
 			return new ResponseEntity<>(updatedEvaluation, HttpStatus.OK);

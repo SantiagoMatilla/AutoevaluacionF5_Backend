@@ -1,8 +1,6 @@
 package com.F5aes.controller;
 
-import com.F5aes.model.RoleModel;
-
-import com.F5aes.repository.RoleRepository;
+import com.F5aes.model.Role;
 
 import com.F5aes.service.RoleService;
 
@@ -14,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -27,13 +24,13 @@ private RoleAssignImpl roleAssign;
 
     // Save method
     @PostMapping("/saveRole")
-    public RoleModel createUser(@RequestBody RoleModel roleModel) {
+    public Role createUser(@RequestBody Role role) {
 
-        return roleService.saveRole(roleModel);
+        return roleService.saveRole(role);
     }
 
     @GetMapping("/roles")
-    public List<RoleModel> getRoles() {
+    public List<Role> getRoles() {
         return roleService.getAllRoles();
     }
 
@@ -45,8 +42,8 @@ private RoleAssignImpl roleAssign;
     }
 
     @PutMapping("/updateRole/{id}")
-    public ResponseEntity<?> updateRole(@RequestBody RoleModel roleModel, @PathVariable Long id) {
-        roleService.editRole(roleModel,id);
+    public ResponseEntity<?> updateRole(@RequestBody Role role, @PathVariable Long id) {
+        roleService.editRole(role,id);
     return ResponseEntity.ok("Role updated successfully");
     }
 // assign role to the users

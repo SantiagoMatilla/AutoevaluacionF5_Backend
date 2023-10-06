@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "coder_evaluation")
-public class CoderEvaluationModel {
+public class CoderEvaluation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -22,7 +22,7 @@ public class CoderEvaluationModel {
 
 	@ManyToOne
 	@JoinColumn(name = "content_id")
-	private ContentModel content;
+	private Content content;
 
 	@ManyToOne
 	@JoinColumn(name = "evaluator_id")

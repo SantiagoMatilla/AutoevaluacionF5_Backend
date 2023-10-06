@@ -1,6 +1,6 @@
 package com.F5aes.service.request;
 
-import com.F5aes.model.RoleModel;
+import com.F5aes.model.Role;
 import com.F5aes.model.UserModel;
 import com.F5aes.repository.RoleRepository;
 import com.F5aes.repository.UserRepository;
@@ -19,7 +19,7 @@ public class RoleAssignImpl {
 		Long roleId = assignRoleRequest.getRoleId();
 
 		UserModel user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-		RoleModel role = roleRepository.findById(roleId).orElseThrow(() -> new RuntimeException("Role not found"));
+		Role role = roleRepository.findById(roleId).orElseThrow(() -> new RuntimeException("Role not found"));
 
 		user.addRole(role); // Add the new role to the user
 

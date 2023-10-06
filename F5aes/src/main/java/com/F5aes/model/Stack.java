@@ -15,7 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Table(name = "stack")
-public class StackModel {
+public class Stack {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public class StackModel {
 	private String name;
 	private String image;
 
-	@OneToMany(mappedBy = "stackModel", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "stack", cascade = CascadeType.ALL)
 	@JsonIgnore
-	private Set<SkillModel> skillModels;
+	private Set<Skill> skills;
 }

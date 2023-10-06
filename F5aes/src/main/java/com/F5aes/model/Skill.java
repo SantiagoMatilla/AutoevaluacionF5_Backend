@@ -16,19 +16,19 @@ import java.util.Set;
 @Entity
 @Table(name = "bootcamp-skills")
 
-public class SkillModel {
+public class Skill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Lob
     private String name;
 
-    @ManyToOne(targetEntity = StackModel.class, cascade = CascadeType.PERSIST)
+    @ManyToOne(targetEntity = Stack.class, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "stack_id" ,referencedColumnName = "id")
-    private StackModel stackModel;
+    private Stack stack;
 
-    @OneToMany(mappedBy = "skillModel")
+    @OneToMany(mappedBy = "skill")
     @JsonIgnore
-    private Set<ContentModel> contents;
+    private Set<Content> contents;
 
 }

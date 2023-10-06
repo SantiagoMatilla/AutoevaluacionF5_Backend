@@ -1,6 +1,6 @@
 package com.F5aes.controller;
 
-import com.F5aes.model.BootcampModel;
+import com.F5aes.model.Bootcamp;
 import com.F5aes.model.UserModel;
 import com.F5aes.service.PrincipalService;
 import com.F5aes.service.UserService;
@@ -20,22 +20,24 @@ public class UserController {
 
 	// Save method
 	@PostMapping("/saveUser")
-	public UserModel createUser(@RequestBody UserModel userModel) {
-		Long bootcampId = userModel.getBootcampModels().getId();
+	public ResponseEntity<?> createUser(@RequestBody UserModel userModel) {
+		Bootcamp selectedBootcamp =principalService.getBootcampById(userModel.getBootcampModels().getId());
+		if (selectedBootcamp == null) {
 
-		if (bootcampId != null) {
-			BootcampModel bootcampModel = principalService.findById(bootcampId);
-			userModel.setBootcampModels(bootcampModel);
+			return  ResponseEntity.badRequest().body("Select bootcamp not found");
+
 		}
+		userModel.setBootcampModels(selectedBootcamp);
+		userService.saveUser(userModel);
+		return ResponseEntity.ok("Saved Successfully");
 
-		return userService.saveUser(userModel);
 	}
 
 	@GetMapping("/users")
 	public List<UserModel> getAllUsers() {
 		List<UserModel> users = userService.getUsers();
 		for (UserModel user : users) {
-			BootcampModel bootcamp = user.getBootcampModels();
+			Bootcamp bootcamp = user.getBootcampModels();
 			if (bootcamp != null) {
 
 				user.setBootcampName(bootcamp.getName());

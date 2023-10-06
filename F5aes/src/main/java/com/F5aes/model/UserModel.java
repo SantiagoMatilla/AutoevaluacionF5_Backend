@@ -1,5 +1,6 @@
 package com.F5aes.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,22 +26,23 @@ public class UserModel {
 	private String password;
 	private String repeatPassword;
 
-	@ManyToMany(fetch = FetchType.EAGER, targetEntity = RoleModel.class, cascade = CascadeType.PERSIST)
+	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class, cascade = CascadeType.PERSIST)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<RoleModel> roleModels;
+	private Set<Role> roles;
 
-	public void addRole(RoleModel role) {
-		roleModels.add(role);
+	public void addRole(Role role) {
+		roles.add(role);
 	}
 
-	@ManyToOne(targetEntity = BootcampModel.class, cascade = CascadeType.PERSIST)
+	@ManyToOne(targetEntity = Bootcamp.class, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "bootcamp_id")
-	private BootcampModel bootcampModels;
+	@JsonIgnore
+	private Bootcamp bootcampModels;
 
 	public void setBootcampName(String name) {
 	}
 	@OneToMany(mappedBy = "evaluator")
-	private Set<CoderEvaluationModel> evaluationPerformed;
+	private Set<CoderEvaluation> evaluationPerformed;
 
 
 }
