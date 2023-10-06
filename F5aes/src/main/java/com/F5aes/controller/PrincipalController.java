@@ -21,32 +21,12 @@ import java.util.Optional;
 @RequestMapping("api")
 @CrossOrigin("*")
 public class PrincipalController {
-
 	@Autowired
 	private PrincipalService principalService;
 	@Autowired
 	private UserService userService;
 
-	@GetMapping("/content/{id}")
-	public Optional<Content> getContentById(@PathVariable long id) {
-		return principalService.getContentById(id);
-	}
-
-	@PutMapping("/updateContent/{id}")
-	public ResponseEntity<?> updateContent(@RequestBody Content content, @PathVariable Long id) {
-		principalService.editContent(content, id);
-		return ResponseEntity.ok("successfully updated!");
-	}
-
-	@DeleteMapping("/content/{id}")
-	public void deleteContent(@PathVariable Long id) {
-
-		principalService.deleteContent(id);
-
-	}
-
 	// ------ Bootcamp Model methods -------
-
 	@GetMapping("/bootcamp")
 	public List<Bootcamp> getAllBootcamp() {
 		return principalService.findAll();
@@ -192,12 +172,26 @@ public class PrincipalController {
 		return ResponseEntity.ok("Saved Successfully");
 
 }
-
 	@GetMapping("/contents")
 	public List<Content> getAllContents() {
 
 		return principalService.getAllContent();
 	}
+	@GetMapping("/content/{id}")
+	public Optional<Content> getContentById(@PathVariable long id) {
+		return principalService.getContentById(id);
+	}
 
+	@PutMapping("/updateContent/{id}")
+	public ResponseEntity<?> updateContent(@RequestBody Content content, @PathVariable Long id) {
+		principalService.editContent(content, id);
+		return ResponseEntity.ok("successfully updated!");
+	}
 
+	@DeleteMapping("/content/{id}")
+	public void deleteContent(@PathVariable Long id) {
+
+		principalService.deleteContent(id);
+
+	}
 }
