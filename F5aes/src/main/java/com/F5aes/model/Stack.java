@@ -21,7 +21,7 @@ public class Stack {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
-//	private String image;
+	private String image;
 
 	@OneToMany(mappedBy = "stack", cascade = CascadeType.ALL)
 	@JsonIgnore

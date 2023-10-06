@@ -38,7 +38,7 @@ public class PrincipalController {
 		return ResponseEntity.ok("successfully updated!");
 	}
 
-	@DeleteMapping("/content/{id}")
+	@DeleteMapping("/deleteContent/{id}")
 	public void deleteContent(@PathVariable Long id) {
 
 		principalService.deleteContent(id);
@@ -52,12 +52,12 @@ public class PrincipalController {
 		return principalService.findAll();
 	}
 
-	@GetMapping({ "/{id}" })
+	@GetMapping({ "/bootcamp/{id}" })
 	public Bootcamp getBootcampById(@PathVariable Long id) {
 		return principalService.getBootcampById(id);
 	}
 
-	@GetMapping("/{name}")
+	@GetMapping("/bootcamp/{name}")
 	public Bootcamp getBootcampByName(@PathVariable String name) {
 		return principalService.findByName(name);
 	}
@@ -70,12 +70,12 @@ public class PrincipalController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedBootcamp);
 	}
 
-	@PutMapping("/update/{id}")
+	@PutMapping("/updateBootcamp/{id}")
 	public Bootcamp updateBootcamp(@PathVariable Long id, @RequestBody Bootcamp bootcampDetails) {
 		return principalService.updateBootcamp(id, bootcampDetails);
 	}
 
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("/deleteBootcamp/{id}")
 	public ResponseEntity<String> deleteBootcamp(@PathVariable Long id) {
 		principalService.deleteById(id);
 		return ResponseEntity.ok("Bootcamp deleted successfully");
@@ -106,13 +106,13 @@ public class PrincipalController {
 		return ResponseEntity.ok("Successfully Saved!");
 	}
 
-	@GetMapping("/stacks")
+	@GetMapping("/stack")
 	public List<Stack> getAllStacks() {
 
 		return principalService.getAllStack();
 	}
 
-	@GetMapping("/stacks/{id}")
+	@GetMapping("/stack/{id}")
 	public Stack getStackById(@PathVariable long id) {
 		return principalService.getStackById(id);
 	}
@@ -123,7 +123,7 @@ public class PrincipalController {
 		return ResponseEntity.ok("successfully updated!");
 	}
 
-	@DeleteMapping("/stacks/{id}")
+	@DeleteMapping("/deleteStack/{id}")
 	public void deleteStack(@PathVariable Long id) {
 
 		principalService.deleteStack(id);
@@ -150,13 +150,13 @@ public class PrincipalController {
 
 
 
-	@GetMapping("/skills")
+	@GetMapping("/skill")
 	public List<Skill> getAllSkills() {
 
 		return principalService.getAllSkill();
 	}
 
-	@GetMapping("/skills/{id}")
+	@GetMapping("/skill/{id}")
 	public Skill getSkillById(@PathVariable long id) {
 		return principalService.getSkillById(id);
 	}
@@ -167,7 +167,7 @@ public class PrincipalController {
 		return ResponseEntity.ok("successfully updated!");
 	}
 
-	@DeleteMapping("/skill/{id}")
+	@DeleteMapping("/deleteSkill/{id}")
 	public void deleteSkill(@PathVariable Long id) {
 
 		principalService.deleteSkill(id);
@@ -193,7 +193,7 @@ public class PrincipalController {
 
 }
 
-	@GetMapping("/contents")
+	@GetMapping("/content")
 	public List<Content> getAllContents() {
 
 		return principalService.getAllContent();
