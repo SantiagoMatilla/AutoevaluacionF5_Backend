@@ -1,16 +1,14 @@
 package com.F5aes.service;
 
+
 import com.F5aes.model.UserModel;
 import com.F5aes.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +23,7 @@ public class UserService implements UserDetailsService {
 	}
 	public UserModel saveUser(UserModel userModel) {
 
-		return userRepository.save(userModel);
+	return 	userRepository.save(userModel);
 	}
 
 
@@ -34,35 +32,24 @@ public class UserService implements UserDetailsService {
 
 		return userRepository.findAll();
 	}
-
-
-	public Optional<UserModel> getUserById(Long id){
-
-		return  userRepository.findById(id);
-
+	public UserModel getUserById(Long id) {
+		Optional<UserModel> optionalUser = userRepository.findById(id);
+		return optionalUser.orElse(null);
 	}
-	public void editUser(@RequestBody UserModel userModel, @PathVariable Long id) {
-		try {
-			Optional<UserModel> existingUser = userRepository.findById(id);
 
-			if (existingUser.isPresent()) {
-				UserModel updateUser = existingUser.get();
-				updateUser.setFirstName(userModel.getFirstName());
-				updateUser.setLastName(userModel.getLastName());
-				updateUser.setPhone(userModel.getPhone());
-				updateUser.setEmail(userModel.getEmail());
-				updateUser.setPassword(userModel.getPassword());
-				updateUser.setRepeatPassword(userModel.getRepeatPassword());
+@Transactional
+	public UserModel editUser(Long id,UserModel userDetails ) {
+				UserModel user = getUserById(id);
 
-				userRepository.save(updateUser);
-				ResponseEntity.ok("user updated!");
-			} else {
-				ResponseEntity.notFound().build();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Not updated");
-		}
+				user.setFirstName(userDetails.getFirstName());
+				user.setLastName(userDetails.getLastName());
+				user.setPhone(userDetails.getPhone());
+				user.setEmail(userDetails.getEmail());
+				user.setPassword(userDetails.getPassword());
+				user.setRepeatPassword(userDetails.getRepeatPassword());
+
+				return saveUser(user);
+
 	}
 	public void deleteUser (Long id){
 

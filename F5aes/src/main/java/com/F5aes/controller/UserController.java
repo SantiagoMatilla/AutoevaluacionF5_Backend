@@ -1,5 +1,6 @@
 package com.F5aes.controller;
 
+import com.F5aes.Exceptions.ResourceNotFoundExceptions;
 import com.F5aes.model.Bootcamp;
 import com.F5aes.model.UserModel;
 import com.F5aes.service.PrincipalService;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/api")
 public class UserController {
 	@Autowired
@@ -20,14 +20,18 @@ public class UserController {
 
 	// Save method
 	@PostMapping("/saveUser")
-	public ResponseEntity<?> createUser(@RequestBody UserModel userModel) {
-		Bootcamp selectedBootcamp =principalService.getBootcampById(userModel.getBootcampModels().getId());
-		if (selectedBootcamp == null) {
+	public ResponseEntity<String> createUser(@RequestBody UserModel userModel) {
 
-			return  ResponseEntity.badRequest().body("Select bootcamp not found");
-
-		}
-		userModel.setBootcampModels(selectedBootcamp);
+//		Bootcamp selectedBootcamp =userModel.getBootcampModels();
+//		if (selectedBootcamp == null) {
+//
+//			return ResponseEntity.ok("Bootcamp is required!");
+//		}
+//		Long bootcampId = selectedBootcamp.getId();
+//		if(bootcampId ==null){
+//			return ResponseEntity.ok("Bootcamp ID is required!");
+//		}
+//		userModel.setBootcampModels(selectedBootcamp);
 		userService.saveUser(userModel);
 		return ResponseEntity.ok("Saved Successfully");
 
@@ -45,17 +49,22 @@ public class UserController {
 		}
 		return users;
 	}
-	@DeleteMapping("/user/{id}")
-	public void removeUser(@PathVariable Long id) {
 
-		userService.deleteUser(id);
+	@GetMapping("/user/{id}")
+	public UserModel getUserById(@PathVariable Long id){
+		return  userService.getUserById(id);
+	}
+	@DeleteMapping("/deleteUser/{id}")
+	public ResponseEntity<String> removeUser(@PathVariable Long id) {
 
+	 	userService.deleteUser(id);
+		 return ResponseEntity.ok("User deleted successfully");
 	}
 
 	@PutMapping("/updateUser/{id}")
-	public ResponseEntity<?> updateUser(@RequestBody UserModel userModel, @PathVariable Long id) {
-		userService.editUser(userModel, id);
-		return ResponseEntity.ok("successfully updated!");
+	public UserModel updateUser(@PathVariable Long id ,@RequestBody UserModel userModel) {
+	return 	userService.editUser(id,userModel);
+
 	}
 
 }

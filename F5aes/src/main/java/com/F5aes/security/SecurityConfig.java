@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -59,7 +58,6 @@ return  source;
 					auth.requestMatchers("/Images/**").permitAll();
 					auth.requestMatchers("/api/**").permitAll();
 					auth.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll();
-					auth.requestMatchers(HttpMethod.POST,"/api/**").permitAll();
 					auth.anyRequest().authenticated();
 				})
 				.sessionManagement(session -> {

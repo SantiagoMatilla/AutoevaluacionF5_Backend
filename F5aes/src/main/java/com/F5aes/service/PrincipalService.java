@@ -46,7 +46,7 @@ public class PrincipalService {
 		return optionalStack.orElse(null);
 	}
 
-	public void editStack(@RequestBody Stack stack, @PathVariable Long id) {
+	public void editStack(Stack stack, Long id) {
 		try {
 			Optional<Stack> existingStack = stackRepository.findById(id);
 
@@ -54,21 +54,17 @@ public class PrincipalService {
 				Stack updateStack = existingStack.get();
 				updateStack.setName(stack.getName());
 
-				stackRepository.save(updateStack);
-				ResponseEntity.ok("Stack updated!");
-			} else {
-				ResponseEntity.notFound().build();
+			Stack savedStack =	stackRepository.save(updateStack);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Not updated");
 		}
 	}
 
 	public void deleteStack(Long id) {
 
 		stackRepository.deleteById(id);
-		ResponseEntity.ok("Content deleted!");
+		ResponseEntity.ok("Stack deleted successfully!");
 	}
 
 	// ----- Skill model methods -----
@@ -188,7 +184,7 @@ public class PrincipalService {
 				.orElseThrow(() -> new BootcampNotFoundExceptions("Bootcamp not found whit name " + name));
 	}
 
-	public Bootcamp save(Bootcamp bootcamp) {
+	public Bootcamp saveBootcamp(Bootcamp bootcamp) {
 		return bootcampRepository.save(bootcamp);
 	}
 
@@ -199,7 +195,7 @@ public class PrincipalService {
 		bootcamp.setDuration(bootcampDetails.getDuration());
 		bootcamp.setStartDate(bootcampDetails.getStartDate());
 		bootcamp.setEndDate(bootcampDetails.getEndDate());
-		return save(bootcamp);
+		return saveBootcamp(bootcamp);
 	}
 
 	public void deleteById(Long Id) {

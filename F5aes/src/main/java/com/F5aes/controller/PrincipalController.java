@@ -3,7 +3,6 @@ package com.F5aes.controller;
 import com.F5aes.model.*;
 import com.F5aes.service.PrincipalService;
 import com.F5aes.service.UserService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +31,7 @@ public class PrincipalController {
 		return principalService.findAll();
 	}
 
-	@GetMapping({ "/{id}" })
+	@GetMapping({ "bootcamp/{id}" })
 	public Bootcamp getBootcampById(@PathVariable Long id) {
 		return principalService.getBootcampById(id);
 	}
@@ -46,16 +45,16 @@ public class PrincipalController {
 	public ResponseEntity<Bootcamp> createBootcamp(@RequestBody Bootcamp bootcamp) {
 
 
-		Bootcamp savedBootcamp = principalService.save(bootcamp);
+		Bootcamp savedBootcamp = principalService.saveBootcamp(bootcamp);
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedBootcamp);
 	}
 
-	@PutMapping("/update/{id}")
+	@PutMapping("/updateBootcamp/{id}")
 	public Bootcamp updateBootcamp(@PathVariable Long id, @RequestBody Bootcamp bootcampDetails) {
 		return principalService.updateBootcamp(id, bootcampDetails);
 	}
 
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("/deleteBootcamp/{id}")
 	public ResponseEntity<String> deleteBootcamp(@PathVariable Long id) {
 		principalService.deleteById(id);
 		return ResponseEntity.ok("Bootcamp deleted successfully");
@@ -67,7 +66,7 @@ public class PrincipalController {
 	public  static String imagesPaths = System.getProperty("user.dir")+"/src/main/resources/Images";
 
 	@PostMapping("/saveStack")
-	public ResponseEntity<?> createStack(@Valid @ModelAttribute Stack stackModel,
+	public ResponseEntity<?> createStack( @ModelAttribute Stack stackModel,
 	                                     @RequestParam("image") MultipartFile file) {
 
 		String originalFilename = file.getOriginalFilename();
@@ -103,7 +102,7 @@ public class PrincipalController {
 		return ResponseEntity.ok("successfully updated!");
 	}
 
-	@DeleteMapping("/stacks/{id}")
+	@DeleteMapping("/deleteStack/{id}")
 	public void deleteStack(@PathVariable Long id) {
 
 		principalService.deleteStack(id);
