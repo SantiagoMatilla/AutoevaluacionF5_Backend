@@ -66,7 +66,7 @@ public class PrincipalController {
 	public  static String imagesPaths = System.getProperty("user.dir")+"/src/main/resources/Images";
 
 	@PostMapping("/saveStack")
-	public ResponseEntity<?> createStack( @ModelAttribute Stack stackModel,
+	public ResponseEntity<String> createStack( @ModelAttribute Stack stackModel,
 	                                     @RequestParam("image") MultipartFile file) {
 
 		String originalFilename = file.getOriginalFilename();
@@ -91,14 +91,14 @@ public class PrincipalController {
 		return principalService.getAllStack();
 	}
 
-	@GetMapping("/stacks/{id}")
+	@GetMapping("/stack/{id}")
 	public Stack getStackById(@PathVariable long id) {
 		return principalService.getStackById(id);
 	}
 
 	@PutMapping("/updateStack/{id}")
-	public ResponseEntity<?> updateStack(@RequestBody Stack stack, @PathVariable Long id) {
-		principalService.editStack(stack, id);
+	public ResponseEntity<?> updateStack(@PathVariable Long id ,@RequestBody Stack stack) {
+		principalService.editStack(id,stack);
 		return ResponseEntity.ok("successfully updated!");
 	}
 

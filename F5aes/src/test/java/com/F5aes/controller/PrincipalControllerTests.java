@@ -1,6 +1,7 @@
 package com.F5aes.controller;
 
 import com.F5aes.model.Bootcamp;
+import com.F5aes.model.Stack;
 import com.F5aes.repository.StackRepository;
 import com.F5aes.service.PrincipalService;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +19,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
 import java.util.List;
+
+
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -150,5 +153,116 @@ Long bootcampIdToDelete = 1L;
 
 	}
 
+		// <--- stack ---->
 
+
+// <----- get all stack test----->
+@Test
+public void testGetAllStack() throws Exception {
+
+	Stack stack1 = new Stack();
+	stack1.setId(1L);
+	stack1.setName("Stack 1");
+
+	Stack stack2 = new Stack();
+	stack2.setId(2L);
+	stack2.setName("Stack 2");
+
+	List<Stack> stackList = Arrays.asList(stack1, stack2);
+
+	when(principalService.getAllStack()).thenReturn(stackList);
+
+
+	mockMvc.perform(get("/api/stacks"))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andExpect(jsonPath("$[0].id").value(1))
+			.andExpect(jsonPath("$[0].name").value("Stack 1"))
+			.andExpect(jsonPath("$[1].id").value(2))
+			.andExpect(jsonPath("$[1].name").value("Stack 2"));
+
+	verify(principalService, times(1)).getAllStack();
+	verifyNoMoreInteractions(principalService);
+}
+	// <----- get stack by id test ----->
+	@Test
+	public void testGetByIdStack() throws Exception {
+
+		Stack stack = new Stack();
+		stack.setId(1L);
+		stack.setName("Stack");
+
+
+		when(principalService.getStackById(eq(1L))).thenReturn(stack);
+
+// Act and Assert
+		mockMvc.perform(get("/api/stack/1"))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.id").value(1))
+				.andExpect(jsonPath("$.name").value("Stack"));
+
+		verify(principalService, times(1)).getStackById(1L);
+		verifyNoMoreInteractions(principalService);
+	}
+	// <----- save stack test ----->
+//	@Test
+//	public void testCreateStack() throws Exception {
+//
+//		Stack stack = new Stack();
+//		stack.setId(1L);
+//		stack.setName("New Stack");
+//
+//		when(principalService.createStack(any(Stack.class))).thenReturn(stack);
+//
+//
+//		mockMvc.perform(post("/api/saveStack")
+//						.contentType(MediaType.APPLICATION_JSON)
+//						.content("{\"name\":\"New Stack\"}"))
+//				.andExpect(status().isCreated())
+//				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+//				.andExpect(jsonPath("$.id").value(1))
+//				.andExpect(jsonPath("$.name").value("New Stack"));
+//
+//		verify(principalService, times(1)).createStack(any(Stack.class));
+//		verifyNoMoreInteractions(principalService);
+//	}
+//	// <----- update stack test ----->
+//	@Test
+//	public void  testUpdateStack() throws  Exception{
+//
+//		Stack updateStack =  new Stack();
+//		updateStack.setId(1L);
+//		updateStack.setName("Updated Stack");
+//
+//		when(principalService.editStack(eq(1L),any(Stack.class))).thenReturn(updateStack);
+//
+//		// Act and Assert
+//
+//		mockMvc.perform(put("/api/updateStack/1")
+//						.contentType(MediaType.APPLICATION_JSON)
+//						.content("{\"name\":\"Updated Stack\"}"))
+//				.andExpect(status().isOk())
+//				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+//				.andExpect(jsonPath("$.id").value(1))
+//				.andExpect(jsonPath("$.name").value("Updated Stack"));
+//
+//		verify(principalService, times(1)).editStack(eq(1L),any(Stack.class));
+//		verifyNoMoreInteractions(principalService);
+//
+//	}
+//	// <----- delete stack test ----->
+//	@Test
+//	public void testDeleteStack() throws  Exception{
+//		Long stackIdToDelete = 1L;
+//
+////Act and Assert
+//		mockMvc.perform(delete("/api/deleteStack/1"))
+//				.andExpect(status().isOk())
+//				.andExpect(content().string("Stack deleted successfully"));
+//
+//		verify(principalService, times(1)).deleteStack(eq(stackIdToDelete));
+//		verifyNoMoreInteractions(principalService);
+//
+//	}
 }

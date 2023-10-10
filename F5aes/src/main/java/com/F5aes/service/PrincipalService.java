@@ -29,10 +29,10 @@ public class PrincipalService {
 	@Autowired
 	private StackRepository stackRepository;
 
-	public void createStack(Stack stack) {
+	public Stack createStack(Stack stack) {
 
-		stackRepository.save(stack);
-		ResponseEntity.ok("Saved Successfully");
+	return 	stackRepository.save(stack);
+
 	}
 
 	public List<Stack> getAllStack() {
@@ -46,19 +46,15 @@ public class PrincipalService {
 		return optionalStack.orElse(null);
 	}
 
-	public void editStack(Stack stack, Long id) {
-		try {
-			Optional<Stack> existingStack = stackRepository.findById(id);
+	public Stack editStack(Long id,Stack stack) {
 
-			if (existingStack.isPresent()) {
-				Stack updateStack = existingStack.get();
-				updateStack.setName(stack.getName());
+		Stack existingStack = getStackById(id);
 
-			Stack savedStack =	stackRepository.save(updateStack);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			existingStack.setId(stack.getId());
+			existingStack.setName(stack.getName());
+		return  createStack(existingStack);
+
+
 	}
 
 	public void deleteStack(Long id) {
