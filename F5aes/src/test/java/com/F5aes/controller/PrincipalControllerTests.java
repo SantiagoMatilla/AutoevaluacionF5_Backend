@@ -1,6 +1,7 @@
 package com.F5aes.controller;
 
 import com.F5aes.model.Bootcamp;
+import com.F5aes.model.Skill;
 import com.F5aes.model.Stack;
 import com.F5aes.repository.StackRepository;
 import com.F5aes.service.PrincipalService;
@@ -265,4 +266,117 @@ public void testGetAllStack() throws Exception {
 //		verifyNoMoreInteractions(principalService);
 //
 //	}
+
+	// <--- skill ---->
+
+
+	// <----- get all skill test----->
+	@Test
+	public void testGetAllSkill() throws Exception {
+
+		Skill skill1 = new Skill();
+		skill1.setId(1L);
+		skill1.setName("Skill 1");
+
+		Skill skill2 = new Skill();
+		skill2.setId(2L);
+		skill2.setName("Skill 2");
+
+		List<Skill> skills = Arrays.asList(skill1, skill2);
+
+		when(principalService.getAllSkill()).thenReturn(skills);
+
+
+		mockMvc.perform(get("/api/skills"))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$[0].id").value(1))
+				.andExpect(jsonPath("$[0].name").value("Skill 1"))
+				.andExpect(jsonPath("$[1].id").value(2))
+				.andExpect(jsonPath("$[1].name").value("Skill 2"));
+
+		verify(principalService, times(1)).getAllSkill();
+		verifyNoMoreInteractions(principalService);
+	}
+	// <----- get skill by id test ----->
+	@Test
+	public void testGetByIdSkill() throws Exception {
+
+		Skill skill = new Skill();
+		skill.setId(1L);
+		skill.setName("Skill");
+
+
+		when(principalService.getSkillById(eq(1L))).thenReturn(skill);
+
+// Act and Assert
+		mockMvc.perform(get("/api/skill/1"))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.id").value(1))
+				.andExpect(jsonPath("$.name").value("Skill"));
+
+		verify(principalService, times(1)).getSkillById(1L);
+		verifyNoMoreInteractions(principalService);
+	}
+	// <----- save skill test ----->
+	@Test
+	public void testCreateSkill() throws Exception {
+
+		Skill skill = new Skill();
+		skill.setId(1L);
+		skill.setName("New Skill");
+
+		when(principalService.createSkill(any(Skill.class))).thenReturn(skill);
+
+
+		mockMvc.perform(post("/api/saveSkill")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("{\"name\":\"New Skill\"}"))
+				.andExpect(status().isCreated())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.id").value(1))
+				.andExpect(jsonPath("$.name").value("New Skill"));
+
+		verify(principalService, times(1)).createSkill(any(Skill.class));
+		verifyNoMoreInteractions(principalService);
+	}
+	// <----- update skill test ----->
+	@Test
+	public void  testUpdateSkill() throws  Exception{
+
+		Skill updateSkill =  new Skill();
+		updateSkill.setId(1L);
+		updateSkill.setName("Updated Skill");
+
+		when(principalService.editSkill(eq(1L),any(Skill.class))).thenReturn(updateSkill);
+
+		// Act and Assert
+
+		mockMvc.perform(put("/api/updateSkill/1")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("{\"name\":\"Updated Skill\"}"))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.id").value(1))
+				.andExpect(jsonPath("$.name").value("Updated Skill"));
+
+		verify(principalService, times(1)).editSkill(eq(1L),any(Skill.class));
+		verifyNoMoreInteractions(principalService);
+
+	}
+	// <----- delete skill test ----->
+	@Test
+	public void testDeleteSkill() throws  Exception{
+		Long skillIdToDelete = 1L;
+
+//Act and Assert
+		mockMvc.perform(delete("/api/deleteSkill/1"))
+				.andExpect(status().isOk())
+				.andExpect(content().string("Skill deleted successfully!"));
+
+		verify(principalService, times(1)).deleteSkill(eq(skillIdToDelete));
+		verifyNoMoreInteractions(principalService);
+
+	}
 }

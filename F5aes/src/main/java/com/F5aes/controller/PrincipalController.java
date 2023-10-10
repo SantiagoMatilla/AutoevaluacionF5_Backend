@@ -111,20 +111,10 @@ public class PrincipalController {
 
 	// ----- Skill Model methods -----
 	@PostMapping("/saveSkill")
-	public ResponseEntity<String> createSkill(@RequestBody Skill skill) {
+	public ResponseEntity<Skill> createSkill(@RequestBody Skill skill) {
+	Skill savedSkill=	principalService.createSkill(skill);
 
-		Stack selectedStack = principalService.getStackById(skill.getStack().getId());
-
-		if (selectedStack == null) {
-			return ResponseEntity.badRequest().body("Selected stack not found");
-		}
-
-		// Set the selected stack in the skill
-		skill.setStack(selectedStack);
-
-		principalService.createSkill(skill);
-
-		return ResponseEntity.ok("Saved Successfully");
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedSkill);
 	}
 
 
@@ -135,22 +125,22 @@ public class PrincipalController {
 		return principalService.getAllSkill();
 	}
 
-	@GetMapping("/skills/{id}")
+	@GetMapping("/skill/{id}")
 	public Skill getSkillById(@PathVariable long id) {
 		return principalService.getSkillById(id);
 	}
 
 	@PutMapping("/updateSkill/{id}")
-	public ResponseEntity<?> updateSkill(@RequestBody Skill skill, @PathVariable Long id) {
-		principalService.editSkill(skill, id);
-		return ResponseEntity.ok("successfully updated!");
+	public Skill updateSkill( @PathVariable Long id ,@RequestBody Skill skill) {
+
+		return principalService.editSkill(id, skill);
 	}
 
-	@DeleteMapping("/skill/{id}")
-	public void deleteSkill(@PathVariable Long id) {
+	@DeleteMapping("/deleteSkill/{id}")
+	public ResponseEntity<String> deleteSkill(@PathVariable Long id) {
 
 		principalService.deleteSkill(id);
-
+return ResponseEntity.ok("Skill deleted successfully!");
 	}
 
 	// ----- Content Model methods -----

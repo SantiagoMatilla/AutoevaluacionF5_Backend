@@ -67,10 +67,10 @@ public class PrincipalService {
 	@Autowired
 	private SkillRepository skillRepository;
 
-	public void createSkill(Skill skill) {
+	public Skill createSkill(Skill skill) {
 
-		skillRepository.save(skill);
-		ResponseEntity.ok("Saved Successfully");
+	return 	skillRepository.save(skill);
+
 	}
 
 	public List<Skill> getAllSkill() {
@@ -89,23 +89,14 @@ public class PrincipalService {
 		return optionalSkillModel.orElse(null);
 	}
 
-	public void editSkill(@RequestBody Skill skill, @PathVariable Long id) {
-		try {
-			Optional<Skill> existingSkill = skillRepository.findById(id);
+	public Skill editSkill(Long id, Skill skill) {
 
-			if (existingSkill.isPresent()) {
-				Skill updateSkill = existingSkill.get();
+				Skill updateSkill = getSkillById(id);
+				updateSkill.setId(skill.getId());
 				updateSkill.setName(skill.getName());
 
-				skillRepository.save(updateSkill);
-				ResponseEntity.ok("Skill updated!");
-			} else {
-				ResponseEntity.notFound().build();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Not updated");
-		}
+			return 	skillRepository.save(updateSkill);
+
 	}
 
 	public void deleteSkill(Long id) {
