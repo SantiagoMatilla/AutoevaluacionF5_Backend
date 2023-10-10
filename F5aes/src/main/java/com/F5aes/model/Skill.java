@@ -14,7 +14,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "bootcamp-skills")
+@Table(name = "skills")
 
 public class Skill {
     @Id
