@@ -20,9 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-
 import java.util.Arrays;
-
 @Configuration
 public class SecurityConfig {
 	@Autowired
@@ -35,8 +33,8 @@ public class SecurityConfig {
 	public UrlBasedCorsConfigurationSource corsConfigurationSource(){
 	CorsConfiguration configuration = new CorsConfiguration();
 	configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
-	configuration.setAllowedOrigins(Arrays.asList("GET","PUT","DELETE","POST","OPTIONS"));
-	configuration.setAllowedOrigins(Arrays.asList("Authorization","Content-Type","X-Requested-With","Accept"));
+	configuration.setAllowedMethods(Arrays.asList("GET","PUT","DELETE","POST","OPTIONS"));
+	configuration.setAllowedHeaders(Arrays.asList("Authorization","Content-Type","X-Requested-With","Accept"));
 
 	UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 

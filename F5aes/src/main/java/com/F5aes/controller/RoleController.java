@@ -24,9 +24,10 @@ private RoleAssignImpl roleAssign;
 
     // Save method
     @PostMapping("/saveRole")
-    public Role createUser(@RequestBody Role role) {
+    public ResponseEntity<String> createUser(@RequestBody Role role) {
 
-        return roleService.saveRole(role);
+         roleService.saveRole(role);
+        return  ResponseEntity.ok("Saved Successfully");
     }
 
     @GetMapping("/roles")
@@ -34,7 +35,7 @@ private RoleAssignImpl roleAssign;
         return roleService.getAllRoles();
     }
 
-    @DeleteMapping("role/{id}")
+    @DeleteMapping("deleteRole/{id}")
     public void removeRole(@PathVariable Long id) {
 
         roleService.deleteRole(id);
@@ -42,9 +43,8 @@ private RoleAssignImpl roleAssign;
     }
 
     @PutMapping("/updateRole/{id}")
-    public ResponseEntity<?> updateRole(@RequestBody Role role, @PathVariable Long id) {
-        roleService.editRole(role,id);
-    return ResponseEntity.ok("Role updated successfully");
+    public Role updateRole(@PathVariable Long id,@RequestBody Role role) {
+       return roleService.editRole(id,role);
     }
 // assign role to the users
 @PostMapping("/assign-roles")
