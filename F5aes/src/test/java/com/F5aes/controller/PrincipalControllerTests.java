@@ -1,6 +1,7 @@
 package com.F5aes.controller;
 
 import com.F5aes.model.Bootcamp;
+import com.F5aes.model.Content;
 import com.F5aes.model.Skill;
 import com.F5aes.model.Stack;
 import com.F5aes.repository.StackRepository;
@@ -42,6 +43,7 @@ private StackRepository stackRepository;
 	public void setUp() {
 
 	}
+			//"""""" Bootcamp """"""
 
 	// <----- get all bootcamp test----->
 	@Test
@@ -154,8 +156,7 @@ Long bootcampIdToDelete = 1L;
 
 	}
 
-		// <--- stack ---->
-
+		//	"""""" Stack """"""
 
 // <----- get all stack test----->
 @Test
@@ -252,23 +253,23 @@ public void testGetAllStack() throws Exception {
 //		verifyNoMoreInteractions(principalService);
 //
 //	}
-//	// <----- delete stack test ----->
-//	@Test
-//	public void testDeleteStack() throws  Exception{
-//		Long stackIdToDelete = 1L;
-//
-////Act and Assert
-//		mockMvc.perform(delete("/api/deleteStack/1"))
-//				.andExpect(status().isOk())
-//				.andExpect(content().string("Stack deleted successfully"));
-//
-//		verify(principalService, times(1)).deleteStack(eq(stackIdToDelete));
-//		verifyNoMoreInteractions(principalService);
-//
-//	}
 
-	// <--- skill ---->
+	// <----- delete stack test ----->
+	@Test
+	public void testDeleteStack() throws  Exception{
+		Long stackIdToDelete = 1L;
 
+//Act and Assert
+		mockMvc.perform(delete("/api/deleteStack/1"))
+				.andExpect(status().isOk())
+				.andExpect(content().string("Stack deleted successfully"));
+
+		verify(principalService, times(1)).deleteStack(eq(stackIdToDelete));
+		verifyNoMoreInteractions(principalService);
+
+	}
+
+		//	"""""" Skill """"""
 
 	// <----- get all skill test----->
 	@Test
@@ -319,7 +320,7 @@ public void testGetAllStack() throws Exception {
 		verify(principalService, times(1)).getSkillById(1L);
 		verifyNoMoreInteractions(principalService);
 	}
-	// <----- save skill test ----->
+	// <----- save content test ----->
 	@Test
 	public void testCreateSkill() throws Exception {
 
@@ -376,6 +377,118 @@ public void testGetAllStack() throws Exception {
 				.andExpect(content().string("Skill deleted successfully!"));
 
 		verify(principalService, times(1)).deleteSkill(eq(skillIdToDelete));
+		verifyNoMoreInteractions(principalService);
+
+	}
+
+	//			"""""" Content """"""
+
+	// <----- get all content test----->
+	@Test
+	public void testGetAllContent() throws Exception {
+
+		Content content1 = new Content();
+		content1.setId(1L);
+		content1.setName("Content 1");
+
+		Content content2 = new Content();
+		content2.setId(2L);
+		content2.setName("Content 2");
+
+		List<Content> contents = Arrays.asList(content1, content2);
+
+		when(principalService.getAllContent()).thenReturn(contents);
+
+
+		mockMvc.perform(get("/api/contents"))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$[0].id").value(1))
+				.andExpect(jsonPath("$[0].name").value("Content 1"))
+				.andExpect(jsonPath("$[1].id").value(2))
+				.andExpect(jsonPath("$[1].name").value("Content 2"));
+
+		verify(principalService, times(1)).getAllContent();
+		verifyNoMoreInteractions(principalService);
+	}
+	// <----- get content by id test ----->
+	@Test
+	public void testGetByIdContent() throws Exception {
+
+		Content content = new Content();
+		content.setId(1L);
+		content.setName("Content");
+
+		when(principalService.getContentById(eq(1L))).thenReturn(content);
+
+// Act and Assert
+		mockMvc.perform(get("/api/content/1"))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.id").value(1))
+				.andExpect(jsonPath("$.name").value("Content"));
+
+		verify(principalService, times(1)).getContentById(1L);
+		verifyNoMoreInteractions(principalService);
+	}
+
+	// <----- save content test ----->
+	@Test
+	public void testCreateContent() throws Exception {
+
+		Content content = new Content();
+		content.setId(1L);
+		content.setName("New Content");
+
+		when(principalService.createContent(any(Content.class))).thenReturn(content);
+
+
+		mockMvc.perform(post("/api/saveContent")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("{\"name\":\"New Content\"}"))
+				.andExpect(status().isCreated())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.id").value(1))
+				.andExpect(jsonPath("$.name").value("New Content"));
+
+		verify(principalService, times(1)).createContent(any(Content.class));
+		verifyNoMoreInteractions(principalService);
+	}
+	// <----- update content test ----->
+	@Test
+	public void  testUpdateContent() throws  Exception{
+
+		Content updateContent =  new Content();
+		updateContent.setId(1L);
+		updateContent.setName("Updated Content");
+
+		when(principalService.editContent(eq(1L),any(Content.class))).thenReturn(updateContent);
+
+		// Act and Assert
+
+		mockMvc.perform(put("/api/updateContent/1")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("{\"name\":\"Updated Content\"}"))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.id").value(1))
+				.andExpect(jsonPath("$.name").value("Updated Content"));
+
+		verify(principalService, times(1)).editContent(eq(1L),any(Content.class));
+		verifyNoMoreInteractions(principalService);
+
+	}
+	// <----- delete content test ----->
+	@Test
+	public void testDeleteContent() throws  Exception{
+		Long contentIdToDelete = 1L;
+
+//Act and Assert
+		mockMvc.perform(delete("/api/deleteContent/1"))
+				.andExpect(status().isOk())
+				.andExpect(content().string("Content deleted successfully!"));
+
+		verify(principalService, times(1)).deleteContent(eq(contentIdToDelete));
 		verifyNoMoreInteractions(principalService);
 
 	}

@@ -103,9 +103,10 @@ public class PrincipalController {
 	}
 
 	@DeleteMapping("/deleteStack/{id}")
-	public void deleteStack(@PathVariable Long id) {
+	public ResponseEntity<String> deleteStack(@PathVariable Long id) {
 
 		principalService.deleteStack(id);
+		return ResponseEntity.ok("Stack deleted successfully");
 
 	}
 
@@ -116,8 +117,6 @@ public class PrincipalController {
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedSkill);
 	}
-
-
 
 	@GetMapping("/skills")
 	public List<Skill> getAllSkills() {
@@ -140,25 +139,23 @@ public class PrincipalController {
 	public ResponseEntity<String> deleteSkill(@PathVariable Long id) {
 
 		principalService.deleteSkill(id);
-return ResponseEntity.ok("Skill deleted successfully!");
+		return ResponseEntity.ok("Skill deleted successfully!");
 	}
 
 	// ----- Content Model methods -----
 	@PostMapping("/saveContent")
-	public ResponseEntity<?> createContent(@RequestBody Content contents) {
+	public ResponseEntity<Content> createContent(@RequestBody Content contents) {
 
-		Skill selectedSkill = principalService.getSkillById(contents.getSkill().getId());
-
-		if (selectedSkill == null) {
-			return ResponseEntity.badRequest().body("Selected skill not found");
-		}
-
-		// Set the selected stack in the skill
-		contents.setSkill(selectedSkill);
-
-		principalService.createContent(contents);
-
-		return ResponseEntity.ok("Saved Successfully");
+//		Skill selectedSkill = principalService.getSkillById(contents.getSkill().getId());
+//
+//		if (selectedSkill == null) {
+//			return ResponseEntity.badRequest().body("Selected skill not found");
+//		}
+//
+//		// Set the selected stack in the skill
+//		contents.setSkill(selectedSkill);
+		Content savedContent=	principalService.createContent(contents);
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedContent);
 
 }
 	@GetMapping("/contents")
@@ -167,20 +164,19 @@ return ResponseEntity.ok("Skill deleted successfully!");
 		return principalService.getAllContent();
 	}
 	@GetMapping("/content/{id}")
-	public Optional<Content> getContentById(@PathVariable long id) {
+	public Content getContentById(@PathVariable long id) {
 		return principalService.getContentById(id);
 	}
 
 	@PutMapping("/updateContent/{id}")
-	public ResponseEntity<?> updateContent(@RequestBody Content content, @PathVariable Long id) {
-		principalService.editContent(content, id);
-		return ResponseEntity.ok("successfully updated!");
+	public Content updateContent(@RequestBody Content content, @PathVariable Long id) {
+	return 	principalService.editContent(id,content);
 	}
 
-	@DeleteMapping("/content/{id}")
-	public void deleteContent(@PathVariable Long id) {
-
+	@DeleteMapping("/deleteContent/{id}")
+	public ResponseEntity<String> deleteContent(@PathVariable Long id) {
 		principalService.deleteContent(id);
+		return ResponseEntity.ok("Content deleted successfully!");
 
 	}
 }

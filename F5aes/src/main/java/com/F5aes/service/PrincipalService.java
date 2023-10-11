@@ -58,9 +58,7 @@ public class PrincipalService {
 	}
 
 	public void deleteStack(Long id) {
-
 		stackRepository.deleteById(id);
-		ResponseEntity.ok("Stack deleted successfully!");
 	}
 
 	// ----- Skill model methods -----
@@ -102,17 +100,17 @@ public class PrincipalService {
 	public void deleteSkill(Long id) {
 
 		skillRepository.deleteById(id);
-		ResponseEntity.ok("Content deleted!");
+		ResponseEntity.ok("skill deleted!");
 	}
 
 	// ----- Content model Methods -----
 	@Autowired
 	private ContentRepository contentRepository;
 
-	public void createContent(Content contents) {
+	public Content createContent(Content contents) {
 
-		contentRepository.save(contents);
-		ResponseEntity.ok("Saved Successfully");
+		return 	contentRepository.save(contents);
+
 	}
 
 	public List<Content> getAllContent() {
@@ -121,27 +119,21 @@ public class PrincipalService {
 
 	}
 
-	public Optional<Content> getContentById(long id) {
-		return contentRepository.findById(id);
+	public Content getContentById(long id) {
+
+
+		Optional<Content> optionalContent = contentRepository.findById(id);
+		return optionalContent.orElse(null);
 	}
 
-	public void editContent(@RequestBody Content contents, @PathVariable Long id) {
-		try {
-			Optional<Content> existingContent = contentRepository.findById(id);
+	public Content editContent(Long id, Content contents) {
 
-			if (existingContent.isPresent()) {
-				Content updateContent = existingContent.get();
+				Content updateContent = getContentById(id);
+				updateContent.setId(contents.getId());
 				updateContent.setName(contents.getName());
 
-				contentRepository.save(updateContent);
-				ResponseEntity.ok("Content updated!");
-			} else {
-				ResponseEntity.notFound().build();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Not updated");
-		}
+			return	contentRepository.save(updateContent);
+
 	}
 
 	public void deleteContent(Long id) {
