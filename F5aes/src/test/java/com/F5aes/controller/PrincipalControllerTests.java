@@ -323,25 +323,28 @@ public void testGetAllStack() throws Exception {
 	// <----- save content test ----->
 	@Test
 	public void testCreateSkill() throws Exception {
-
 		Skill skill = new Skill();
 		skill.setId(1L);
 		skill.setName("New Skill");
 
+		// Include the stack in the JSON request
+		String jsonRequest = "{\"name\":\"New Skill\",\"stack\":{\"id\":1}}";
+
+		// Mock the behavior of the principalService.createSkill method
 		when(principalService.createSkill(any(Skill.class))).thenReturn(skill);
 
-
-		mockMvc.perform(post("/api/saveSkill")
+		// Perform the POST request and validate the response
+		mockMvc.perform(post("/saveSkill")
 						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\"name\":\"New Skill\"}"))
-				.andExpect(status().isCreated())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.id").value(1))
-				.andExpect(jsonPath("$.name").value("New Skill"));
+						.content(jsonRequest))
+				.andExpect(status().isOk())
+				.andExpect(content().json("{\"message\":\"Saved Successfully\",\"data\":{\"id\":1,\"name\":\"New Skill\"}}"));
 
+		// Verify that the principalService.createSkill method is called once
 		verify(principalService, times(1)).createSkill(any(Skill.class));
 		verifyNoMoreInteractions(principalService);
 	}
+
 	// <----- update skill test ----->
 	@Test
 	public void  testUpdateSkill() throws  Exception{
@@ -440,13 +443,16 @@ public void testGetAllStack() throws Exception {
 		content.setId(1L);
 		content.setName("New Content");
 
+		// Include the skill in the JSON request
+		String jsonRequest = "{\"name\":\"New Content\",\"skill\":{\"id\":1}}";
+
 		when(principalService.createContent(any(Content.class))).thenReturn(content);
 
 
 		mockMvc.perform(post("/api/saveContent")
 						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\"name\":\"New Content\"}"))
-				.andExpect(status().isCreated())
+						.content(jsonRequest))
+				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$.id").value(1))
 				.andExpect(jsonPath("$.name").value("New Content"));

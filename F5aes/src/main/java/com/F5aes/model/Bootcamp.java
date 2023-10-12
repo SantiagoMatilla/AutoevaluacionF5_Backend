@@ -29,7 +29,8 @@ public class Bootcamp {
     private Date startDate;
     private Date endDate;
 
-    @OneToMany(mappedBy = "bootcampModels")
+    @OneToMany(mappedBy = "bootcamp")
+    @JsonIgnore
     private Set<UserModel> userModels;
 
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = Stack.class, cascade = CascadeType.PERSIST)

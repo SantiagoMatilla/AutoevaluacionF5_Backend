@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/evaluations")
+@RequestMapping("/api")
 public class CoderEvaluationController {
 
 	@Autowired
 	private CoderEvaluationService coderEvaluationService;
 
-	@GetMapping
+	@GetMapping("/evaluations")
 	public ResponseEntity<List<CoderEvaluation>> getAllUserEvaluations() {
 		List<CoderEvaluation> evaluations = coderEvaluationService.getAllCoderEvaluations();
 		return new ResponseEntity<>(evaluations, HttpStatus.OK);
@@ -32,13 +32,13 @@ public class CoderEvaluationController {
 		}
 	}
 
-	@PostMapping
+	@PostMapping("/saveEvaluation")
 	public ResponseEntity<CoderEvaluation> createUserEvaluation(@RequestBody CoderEvaluation coderEvaluation) {
 		CoderEvaluation createdEvaluation = coderEvaluationService.createCoderEvaluation(coderEvaluation);
 		return new ResponseEntity<>(createdEvaluation, HttpStatus.CREATED);
 	}
 
-	@PutMapping("/{id}")
+	@PutMapping("/updateEvaluation/{id}")
 	public ResponseEntity<CoderEvaluation> updateUserEvaluation(@PathVariable Long id,
 	                                                            @RequestBody CoderEvaluation updatedCoderEvaluation) {
 		CoderEvaluation updatedEvaluation = coderEvaluationService.updateCoderEvaluation(id, updatedCoderEvaluation);
@@ -50,7 +50,7 @@ public class CoderEvaluationController {
 		}
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping("deleteEvaluation/{id}")
 	public ResponseEntity<Void> deleteUserEvaluation(@PathVariable Long id) {
 		coderEvaluationService.deleteCoderEvaluation(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);

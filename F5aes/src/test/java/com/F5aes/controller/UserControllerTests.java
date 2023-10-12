@@ -95,19 +95,33 @@ public void testGetByIdUser() throws Exception {
 
 		UserModel user = new UserModel();
 		user.setId(1L);
-		user.setFirstName("NewUser");
-		Bootcamp bootcamp = new Bootcamp();
-		bootcamp.setId(1L);
-		user.setBootcampModels(bootcamp);
+		user.setFirstName("Jose");
+		user.setLastName("Manuel");
+		user.setPhone("567888999");
+		user.setEmail("jose@mail.com");
+		user.setPassword("myPassword");
+		user.setRepeatPassword("myPassword");
+
+		// Include the bootcamp ID in the JSON request
+		String jsonRequest = "{\"firstName\":\"Jose\",\"lastName\":\"Manuel\"" +
+				",\"phone\":\"567888999\"," +
+				"\"email\":\"jose@mail.com\"," +
+				"\"password\":\"myPassword\",\"repeatPassword\":\"myPassword\"," +
+				"\"bootcamp\":{\"id\":1}}";
 
 		when(userService.saveUser(any(UserModel.class))).thenReturn(user);
 
 
 		mockMvc.perform(post("/api/saveUser")
 						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\"firstName\":\"NewUser\"}"))
+						.content(jsonRequest))
 				.andExpect(status().isOk())
-				.andExpect(content().string("Saved Successfully"));
+				.andExpect(content().json("{\"data\":{\"id\":1,\"firstName\":\"Jose\",\"lastName\":\"Manuel\"," +
+						"\"phone\":\"567888999\",\"email\":\"jose@mail.com\"," +
+						"\"password\":\"myPassword\",\"repeatPassword\":\"myPassword\"," +
+						"\"roles\":null,\"bootcamp\":null}," +
+						"\"message\":\"Saved Successfully\"}"));
+
 
 		verify(userService, times(1)).saveUser(any(UserModel.class));
 		verifyNoMoreInteractions(userService);
