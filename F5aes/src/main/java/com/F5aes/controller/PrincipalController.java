@@ -70,18 +70,6 @@ public class PrincipalController {
 	@PostMapping("/saveStack")
 	public ResponseEntity<String> createStack( @RequestBody Stack stackModel) {
 
-//		String originalFilename = file.getOriginalFilename();
-//		Path fileNamePath = Paths.get(imagesPaths,originalFilename);
-//		try{
-//			Files.write(fileNamePath,file.getBytes());
-//			Stack stack = new Stack();
-//			stack.setImage(originalFilename);
-//			stack.setName(stackModel.getName());
-//
-//		}catch (IOException e){
-//
-//			throw new RuntimeException(e);
-//		}
 		principalService.createStack(stackModel);
 		return ResponseEntity.ok("Successfully Saved!");
 	}
