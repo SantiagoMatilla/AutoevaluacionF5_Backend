@@ -4,7 +4,7 @@ import com.F5aes.model.*;
 import com.F5aes.repository.SkillRepository;
 import com.F5aes.repository.StackRepository;
 import com.F5aes.service.PrincipalService;
-import com.F5aes.service.UserService;
+//import com.F5aes.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +21,12 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("api")
+@CrossOrigin("*")
 public class PrincipalController {
 	@Autowired
 	private PrincipalService principalService;
-	@Autowired
-	private UserService userService;
+//	@Autowired
+//	private UserService userService;
 
 	// ------ Bootcamp Model methods -------
 	@GetMapping("/bootcamp")
