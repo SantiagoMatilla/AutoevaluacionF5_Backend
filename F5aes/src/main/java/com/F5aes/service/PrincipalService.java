@@ -29,10 +29,10 @@ public class PrincipalService {
 	@Autowired
 	private StackRepository stackRepository;
 
-	public void createStack(Stack stack) {
+	public Stack createStack(Stack stack) {
 
-		stackRepository.save(stack);
-		ResponseEntity.ok("Saved Successfully");
+	return 	stackRepository.save(stack);
+
 	}
 
 	public List<Stack> getAllStack() {
@@ -46,39 +46,29 @@ public class PrincipalService {
 		return optionalStack.orElse(null);
 	}
 
-	public void editStack(@RequestBody Stack stack, @PathVariable Long id) {
-		try {
-			Optional<Stack> existingStack = stackRepository.findById(id);
+	public Stack editStack(Long id,Stack stack) {
 
-			if (existingStack.isPresent()) {
-				Stack updateStack = existingStack.get();
-				updateStack.setName(stack.getName());
+		Stack existingStack = getStackById(id);
 
-				stackRepository.save(updateStack);
-				ResponseEntity.ok("Stack updated!");
-			} else {
-				ResponseEntity.notFound().build();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Not updated");
-		}
+			existingStack.setId(stack.getId());
+			existingStack.setName(stack.getName());
+		return  createStack(existingStack);
+
+
 	}
 
 	public void deleteStack(Long id) {
-
 		stackRepository.deleteById(id);
-		ResponseEntity.ok("Content deleted!");
 	}
 
 	// ----- Skill model methods -----
 	@Autowired
 	private SkillRepository skillRepository;
 
-	public void createSkill(Skill skill) {
+	public Skill createSkill(Skill skill) {
 
-		skillRepository.save(skill);
-		ResponseEntity.ok("Saved Successfully");
+	return 	skillRepository.save(skill);
+
 	}
 
 	public List<Skill> getAllSkill() {
@@ -97,39 +87,30 @@ public class PrincipalService {
 		return optionalSkillModel.orElse(null);
 	}
 
-	public void editSkill(@RequestBody Skill skill, @PathVariable Long id) {
-		try {
-			Optional<Skill> existingSkill = skillRepository.findById(id);
+	public Skill editSkill(Long id, Skill skill) {
 
-			if (existingSkill.isPresent()) {
-				Skill updateSkill = existingSkill.get();
+				Skill updateSkill = getSkillById(id);
+				updateSkill.setId(skill.getId());
 				updateSkill.setName(skill.getName());
 
-				skillRepository.save(updateSkill);
-				ResponseEntity.ok("Skill updated!");
-			} else {
-				ResponseEntity.notFound().build();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Not updated");
-		}
+			return 	skillRepository.save(updateSkill);
+
 	}
 
 	public void deleteSkill(Long id) {
 
 		skillRepository.deleteById(id);
-		ResponseEntity.ok("Content deleted!");
+		ResponseEntity.ok("skill deleted!");
 	}
 
 	// ----- Content model Methods -----
 	@Autowired
 	private ContentRepository contentRepository;
 
-	public void createContent(Content contents) {
+	public Content createContent(Content contents) {
 
-		contentRepository.save(contents);
-		ResponseEntity.ok("Saved Successfully");
+		return 	contentRepository.save(contents);
+
 	}
 
 	public List<Content> getAllContent() {
@@ -138,27 +119,21 @@ public class PrincipalService {
 
 	}
 
-	public Optional<Content> getContentById(long id) {
-		return contentRepository.findById(id);
+	public Content getContentById(long id) {
+
+
+		Optional<Content> optionalContent = contentRepository.findById(id);
+		return optionalContent.orElse(null);
 	}
 
-	public void editContent(@RequestBody Content contents, @PathVariable Long id) {
-		try {
-			Optional<Content> existingContent = contentRepository.findById(id);
+	public Content editContent(Long id, Content contents) {
 
-			if (existingContent.isPresent()) {
-				Content updateContent = existingContent.get();
+				Content updateContent = getContentById(id);
+				updateContent.setId(contents.getId());
 				updateContent.setName(contents.getName());
 
-				contentRepository.save(updateContent);
-				ResponseEntity.ok("Content updated!");
-			} else {
-				ResponseEntity.notFound().build();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Not updated");
-		}
+			return	contentRepository.save(updateContent);
+
 	}
 
 	public void deleteContent(Long id) {
@@ -188,7 +163,7 @@ public class PrincipalService {
 				.orElseThrow(() -> new BootcampNotFoundExceptions("Bootcamp not found whit name " + name));
 	}
 
-	public Bootcamp save(Bootcamp bootcamp) {
+	public Bootcamp saveBootcamp(Bootcamp bootcamp) {
 		return bootcampRepository.save(bootcamp);
 	}
 
@@ -199,7 +174,7 @@ public class PrincipalService {
 		bootcamp.setDuration(bootcampDetails.getDuration());
 		bootcamp.setStartDate(bootcampDetails.getStartDate());
 		bootcamp.setEndDate(bootcampDetails.getEndDate());
-		return save(bootcamp);
+		return saveBootcamp(bootcamp);
 	}
 
 	public void deleteById(Long Id) {

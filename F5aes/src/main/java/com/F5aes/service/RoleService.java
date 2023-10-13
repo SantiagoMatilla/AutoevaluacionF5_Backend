@@ -2,8 +2,10 @@ package com.F5aes.service;
 
 import com.F5aes.model.Role;
 
+import com.F5aes.model.UserModel;
 import com.F5aes.repository.RoleRepository;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,24 +30,18 @@ public class RoleService {
 
         return roleRepository.findAll();
     }
-    public void editRole(@RequestBody Role role, @PathVariable Long id) {
-        try {
-            Optional<Role> existingRole = roleRepository.findById(id);
+    public Role getRoleById(Long id) {
+        Optional<Role> optionalRole = roleRepository.findById(id);
+        return optionalRole.orElse(null);
+    }
+    @Transactional
+    public Role editRole(Long id, Role role ) {
+        Role Updatedrole = getRoleById(id);
+        Updatedrole.setId(role.getId());
+        Updatedrole.setName(role.getName());
 
-            if (existingRole.isPresent()) {
-                Role updateRole = existingRole.get();
-                updateRole.setId(role.getId());
-                updateRole.setName(role.getName());
+        return saveRole(Updatedrole);
 
-                roleRepository.save(updateRole);
-                 ResponseEntity.ok("role updated!");
-            } else {
-                 ResponseEntity.notFound().build();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Not updated");
-        }
     }
     public void deleteRole(Long id) {
 

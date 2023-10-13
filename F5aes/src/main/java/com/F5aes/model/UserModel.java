@@ -21,7 +21,7 @@ public class UserModel {
 	private Long id;
 	private String firstName;
 	private String lastName;
-	private Long phone;
+	private String phone;
 	private String email;
 	private String password;
 	private String repeatPassword;
@@ -35,13 +35,13 @@ public class UserModel {
 	}
 
 	@ManyToOne(targetEntity = Bootcamp.class, cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "bootcamp_id")
-	@JsonIgnore
-	private Bootcamp bootcampModels;
+	@JoinColumn(name = "bootcamp_id" , referencedColumnName = "id")
+	private Bootcamp bootcamp;
 
 	public void setBootcampName(String name) {
 	}
 	@OneToMany(mappedBy = "evaluator")
+	@JsonIgnore
 	private Set<CoderEvaluation> evaluationPerformed;
 
 
