@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -18,10 +19,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
-import java.util.List;
+
 
 @Configuration
 public class SecurityConfig {
@@ -31,19 +33,18 @@ public class SecurityConfig {
 	private UserService userService;
 	@Autowired
 	JwtAuthorizationFilter authorizationFilter;
-@Bean
-	public UrlBasedCorsConfigurationSource corsConfigurationSource(){
-	CorsConfiguration configuration = new CorsConfiguration();
-	configuration.setAllowedOrigins(List.of("http://127.0.0.1:5173"));
-	configuration.setAllowedMethods(Arrays.asList("GET","PUT","DELETE","POST","OPTIONS"));
-	configuration.setAllowedHeaders(Arrays.asList("Authorization","Content-Type","X-Requested-With","Accept"));
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5173/"));
+		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+		configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept"));
 
-	UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
 
-	source.registerCorsConfiguration("/**", configuration);
-
-return  source;
-}
+		return source;
+	}
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AuthenticationManager authenticationManager) throws Exception {
 
@@ -56,6 +57,7 @@ return  source;
 				.csrf(AbstractHttpConfigurer::disable)
 				.authorizeHttpRequests(auth -> {
 					auth.requestMatchers("/api/**").permitAll();
+					auth.requestMatchers(HttpMethod.POST).permitAll();
 					auth.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll();
 					auth.anyRequest().authenticated();
 				})

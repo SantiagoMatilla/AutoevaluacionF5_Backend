@@ -32,15 +32,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	                                            HttpServletResponse response) throws AuthenticationException {
 
 		UserModel userModel = null;
-		String firstName = "";
+		String email = "";
 		String	password = "";
 		try{
 			userModel = new ObjectMapper().readValue(request.getInputStream(),UserModel.class);
-			firstName = userModel.getFirstName();
+			email = userModel.getEmail();
 			password = userModel.getPassword();
 
 			UsernamePasswordAuthenticationToken authenticationToken =
-					new UsernamePasswordAuthenticationToken(firstName, password);
+					new UsernamePasswordAuthenticationToken(email, password);
 			return getAuthenticationManager().authenticate(authenticationToken);
 
 		}catch (IOException e){
@@ -59,7 +59,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		Map<String,Object> httpResponse = new HashMap<>();
 		httpResponse.put("token",token);
 		httpResponse.put("message","Authentication is Passed Successfully");
-		httpResponse.put("Username",user.getUsername());
+		httpResponse.put("email",user.getUsername());
 
 		response.getWriter().write(new ObjectMapper().writeValueAsString(httpResponse));
 		response.setStatus(HttpStatus.OK.value());

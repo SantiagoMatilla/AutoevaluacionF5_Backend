@@ -1,9 +1,7 @@
 package com.F5aes.controller;
 
 import com.F5aes.model.Role;
-
 import com.F5aes.service.RoleService;
-
 import com.F5aes.service.request.AssignRoleRequest;
 import com.F5aes.service.request.RoleAssignImpl;
 import org.springframework.beans.factory.annotation.Autowired;

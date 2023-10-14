@@ -1,15 +1,12 @@
 package com.F5aes.controller;
 
-import com.F5aes.Exceptions.ResourceNotFoundExceptions;
 import com.F5aes.model.Bootcamp;
-import com.F5aes.model.Skill;
-import com.F5aes.model.Stack;
 import com.F5aes.model.UserModel;
 import com.F5aes.repository.BootcampRepository;
-import com.F5aes.service.PrincipalService;
 import com.F5aes.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -22,27 +19,40 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	@Autowired
+	PasswordEncoder passwordEncoder;
+	@Autowired
 	private BootcampRepository bootcampRepository;
 
 	// Save method
 	@PostMapping("/saveUser")
 	public ResponseEntity<Map<String,Object>> createUser(@RequestBody UserModel userRequest) {
 
+		Bootcamp bootcamp = null;
 		// Retrieve the Bootcamp object by its ID
-		Bootcamp bootcamp = bootcampRepository.findById(userRequest.getBootcamp().getId()).orElse(null);
-
+	if(userRequest.getBootcamp() !=null) {
+		 bootcamp = bootcampRepository.findById(userRequest.getBootcamp().getId()).orElse(null);
+	}
 		if (bootcamp == null) {
+			UserModel user = new UserModel();
+			user.setFirstName(userRequest.getFirstName());
+			user.setLastName(userRequest.getLastName());
+			user.setEmail(userRequest.getEmail());
+			user.setPhone(userRequest.getPhone());
+			user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+			user.setRepeatPassword(passwordEncoder.encode(userRequest.getRepeatPassword()));
+			UserModel result=	userService.saveUser(user);
 			Map<String, Object> response = new HashMap<>();
 			response.put("message", "Bootcamp not found");
-			return ResponseEntity.badRequest().body(response);
+			response.put("data", result);
+			return ResponseEntity.ok(response);
 		}
 		UserModel user = new UserModel();
 		user.setFirstName(userRequest.getFirstName());
 		user.setLastName(userRequest.getLastName());
 		user.setEmail(userRequest.getEmail());
 		user.setPhone(userRequest.getPhone());
-		user.setPassword(userRequest.getPassword());
-		user.setRepeatPassword(userRequest.getRepeatPassword());
+		user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+		user.setRepeatPassword(passwordEncoder.encode(userRequest.getRepeatPassword()));
 		user.setBootcamp(bootcamp);
 
 		UserModel result=	userService.saveUser(user);

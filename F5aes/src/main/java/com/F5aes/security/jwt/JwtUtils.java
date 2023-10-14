@@ -20,11 +20,11 @@ public class JwtUtils {
 	private String secretKey;
 	@Value("${jwt.time.expiration}")
 	private String timeExpiration;
-	public String generateAccessToken(String username){
+	public String generateAccessToken(String email){
 
 
 		return Jwts.builder()
-				.setSubject(username)
+				.setSubject(email)
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() +Long.parseLong(timeExpiration)))
 				.signWith(getSignatureKye(), SignatureAlgorithm.HS256)
