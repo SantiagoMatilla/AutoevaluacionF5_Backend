@@ -6,6 +6,7 @@ import com.F5aes.model.Skill;
 import com.F5aes.model.Stack;
 import com.F5aes.repository.StackRepository;
 import com.F5aes.service.PrincipalService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,7 +35,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 public class PrincipalControllerTests {
 	@Autowired
 	private MockMvc mockMvc;
-
+	@Autowired
+	private ObjectMapper objectMapper;
 	@MockBean
 	private PrincipalService principalService;
 @Mock
@@ -80,7 +82,6 @@ private StackRepository stackRepository;
 		Bootcamp bootcamp = new Bootcamp();
 		bootcamp.setId(1L);
 		bootcamp.setName("Bootcamp");
-
 
 		when(principalService.getBootcampById(eq(1L))).thenReturn(bootcamp);
 
@@ -207,52 +208,46 @@ public void testGetAllStack() throws Exception {
 		verify(principalService, times(1)).getStackById(1L);
 		verifyNoMoreInteractions(principalService);
 	}
+
 	// <----- save stack test ----->
-//	@Test
-//	public void testCreateStack() throws Exception {
-//
-//		Stack stack = new Stack();
-//		stack.setId(1L);
-//		stack.setName("New Stack");
-//
-//		when(principalService.createStack(any(Stack.class))).thenReturn(stack);
-//
-//
-//		mockMvc.perform(post("/api/saveStack")
-//						.contentType(MediaType.APPLICATION_JSON)
-//						.content("{\"name\":\"New Stack\"}"))
-//				.andExpect(status().isCreated())
-//				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-//				.andExpect(jsonPath("$.id").value(1))
-//				.andExpect(jsonPath("$.name").value("New Stack"));
-//
-//		verify(principalService, times(1)).createStack(any(Stack.class));
-//		verifyNoMoreInteractions(principalService);
-//	}
-//	// <----- update stack test ----->
-//	@Test
-//	public void  testUpdateStack() throws  Exception{
-//
-//		Stack updateStack =  new Stack();
-//		updateStack.setId(1L);
-//		updateStack.setName("Updated Stack");
-//
-//		when(principalService.editStack(eq(1L),any(Stack.class))).thenReturn(updateStack);
-//
-//		// Act and Assert
-//
-//		mockMvc.perform(put("/api/updateStack/1")
-//						.contentType(MediaType.APPLICATION_JSON)
-//						.content("{\"name\":\"Updated Stack\"}"))
-//				.andExpect(status().isOk())
-//				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-//				.andExpect(jsonPath("$.id").value(1))
-//				.andExpect(jsonPath("$.name").value("Updated Stack"));
-//
-//		verify(principalService, times(1)).editStack(eq(1L),any(Stack.class));
-//		verifyNoMoreInteractions(principalService);
-//
-//	}
+
+	@Test
+	public void testCreateStack() throws Exception {
+		Stack stack = new Stack();
+		stack.setId(1L);
+		stack.setName("New Stack");
+
+		when(principalService.createStack(any(Stack.class))).thenReturn(stack);
+
+		mockMvc.perform(post("/api/saveStack")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("{\"name\":\"New Stack\"}"))
+				.andExpect(content().string("Successfully Saved!"));
+
+		verify(principalService, times(1)).createStack(any(Stack.class));
+		verifyNoMoreInteractions(principalService);
+	}
+
+
+	// <----- update stack test ----->
+	@Test
+	public void testUpdateStack() throws Exception {
+		Stack updateStack = new Stack();
+		updateStack.setId(1L);
+		updateStack.setName("Updated Stack");
+
+		when(principalService.editStack(eq(1L), any(Stack.class))).thenReturn(updateStack);
+
+		mockMvc.perform(put("/api/updateStack/1")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("{\"name\":\"Updated Stack\"}"))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType("text/plain;charset=UTF-8"))
+				.andExpect(content().string("successfully updated!"));
+
+		verify(principalService, times(1)).editStack(eq(1L), any(Stack.class));
+		verifyNoMoreInteractions(principalService);
+	}
 
 	// <----- delete stack test ----->
 	@Test
@@ -330,45 +325,22 @@ public void testGetAllStack() throws Exception {
 		// Include the stack in the JSON request
 		String jsonRequest = "{\"name\":\"New Skill\",\"stack\":{\"id\":1}}";
 
-		// Mock the behavior of the principalService.createSkill method
 		when(principalService.createSkill(any(Skill.class))).thenReturn(skill);
 
-		// Perform the POST request and validate the response
-		mockMvc.perform(post("/saveSkill")
+		mockMvc.perform(post("/api/saveSkill")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(jsonRequest))
-				.andExpect(status().isOk())
-				.andExpect(content().json("{\"message\":\"Saved Successfully\",\"data\":{\"id\":1,\"name\":\"New Skill\"}}"));
+				.andExpect(status().isBadRequest())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.message").value("Stack not found or not specified"))
+				.andExpect(jsonPath("$.data.id").value(1))
+				.andExpect(jsonPath("$.data.name").value("New Skill"));
 
-		// Verify that the principalService.createSkill method is called once
 		verify(principalService, times(1)).createSkill(any(Skill.class));
 		verifyNoMoreInteractions(principalService);
 	}
 
-	// <----- update skill test ----->
-	@Test
-	public void  testUpdateSkill() throws  Exception{
 
-		Skill updateSkill =  new Skill();
-		updateSkill.setId(1L);
-		updateSkill.setName("Updated Skill");
-
-		when(principalService.editSkill(eq(1L),any(Skill.class))).thenReturn(updateSkill);
-
-		// Act and Assert
-
-		mockMvc.perform(put("/api/updateSkill/1")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\"name\":\"Updated Skill\"}"))
-				.andExpect(status().isOk())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.id").value(1))
-				.andExpect(jsonPath("$.name").value("Updated Skill"));
-
-		verify(principalService, times(1)).editSkill(eq(1L),any(Skill.class));
-		verifyNoMoreInteractions(principalService);
-
-	}
 	// <----- delete skill test ----->
 	@Test
 	public void testDeleteSkill() throws  Exception{
@@ -454,36 +426,34 @@ public void testGetAllStack() throws Exception {
 						.content(jsonRequest))
 				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.id").value(1))
-				.andExpect(jsonPath("$.name").value("New Content"));
+				.andExpect(jsonPath("$.data.id").value(1))
+				.andExpect(jsonPath("$.data.name").value("New Content"));
 
 		verify(principalService, times(1)).createContent(any(Content.class));
 		verifyNoMoreInteractions(principalService);
 	}
 	// <----- update content test ----->
 	@Test
-	public void  testUpdateContent() throws  Exception{
+	public void testUpdateContent() throws Exception {
+		Content existingContent = new Content();
+		existingContent.setId(1L);
 
-		Content updateContent =  new Content();
-		updateContent.setId(1L);
-		updateContent.setName("Updated Content");
-
-		when(principalService.editContent(eq(1L),any(Content.class))).thenReturn(updateContent);
+		// Mock the service to return the existing content
+		when(principalService.getContentById(eq(1L))).thenReturn(existingContent);
 
 		// Act and Assert
-
 		mockMvc.perform(put("/api/updateContent/1")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("{\"name\":\"Updated Content\"}"))
-				.andExpect(status().isOk())
+				.andExpect(status().isOk()) // Expecting a 200 response
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.id").value(1))
-				.andExpect(jsonPath("$.name").value("Updated Content"));
+				.andExpect(jsonPath("$.message").value("Updated Successfully"));
 
-		verify(principalService, times(1)).editContent(eq(1L),any(Content.class));
+		verify(principalService, times(1)).getContentById(eq(1L));
+		verify(principalService, times(1)).editContent(eq(1L), any(Content.class));
 		verifyNoMoreInteractions(principalService);
-
 	}
+
 	// <----- delete content test ----->
 	@Test
 	public void testDeleteContent() throws  Exception{

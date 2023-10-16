@@ -74,7 +74,6 @@ public class PrincipalController {
 		principalService.createStack(stackModel);
 		return ResponseEntity.ok("Successfully Saved!");
 	}
-
 	@GetMapping("/stacks")
 	public List<Stack> getAllStacks() {
 
@@ -166,8 +165,8 @@ public class PrincipalController {
 				Stack stack = stackRepository.findById(stackId).orElse(null);
 				if (stack == null) {
 					Map<String, Object> response = new HashMap<>();
-					response.put("message", "Skill not found");
-					return ResponseEntity.badRequest().body(response);
+					response.put("message", "Stack not found");
+					return ResponseEntity.ok(response);
 				}
 				existingSkill.setStack(stack);
 			}
@@ -211,7 +210,7 @@ public class PrincipalController {
 			Map<String, Object> response = new HashMap<>();
 			response.put("message", "Skill not found or not specified");
 			response.put("data", result);
-			return ResponseEntity.badRequest().body(response);
+			return ResponseEntity.ok(response);
 
 		}
 		Content content = new Content();
@@ -257,7 +256,7 @@ public class PrincipalController {
 				if (skill == null) {
 					Map<String, Object> response = new HashMap<>();
 					response.put("message", "Skill not found");
-					return ResponseEntity.badRequest().body(response);
+					return ResponseEntity.ok(response);
 				}
 				existingContent.setSkill(skill);
 			}
