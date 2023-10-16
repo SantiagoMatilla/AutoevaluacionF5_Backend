@@ -12,15 +12,15 @@ public class CoderEvaluation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "coder_id")
 	private UserModel coder;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "content_id")
 	private Content content;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "evaluator_id")
 	private UserModel evaluator;
 
@@ -42,6 +42,10 @@ public class CoderEvaluation {
 
 	// percentage based on evaluation
 	private double percentage;
+
+	public  CoderEvaluation(){
+
+	}
 	public CoderEvaluation
 			(
 			Long id, UserModel coder, Content content, UserModel evaluator,

@@ -50,7 +50,7 @@ public class SecurityConfig {
 
 		JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtUtils);
 		jwtAuthenticationFilter.setAuthenticationManager(authenticationManager);
-		jwtAuthenticationFilter.setFilterProcessesUrl("/login");
+		jwtAuthenticationFilter.setFilterProcessesUrl("/api/login");
 
 		return httpSecurity
 				.cors(Customizer.withDefaults())
